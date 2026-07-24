@@ -1,0 +1,325 @@
+{
+  "audit": "InspectIQ Day 0 feasibility audit",
+  "generated_at": "2026-07-24T19:08:46.984563Z",
+  "configuration": {
+    "state": "CA",
+    "start_date": "2020-01-01",
+    "end_date": "2024-12-31",
+    "row_limit": 3000
+  },
+  "acquisition": {
+    "method": "DOL OSHA API with cached, bounded activity_nr batches",
+    "inspection_selection_strategy": "year_balanced_v1",
+    "cache_directory": "data\\raw\\day0_cache\\audit_41bea53a56bdc7c5",
+    "offline": true,
+    "inspection_cache_hit": true,
+    "inspection_complete": true,
+    "inspection_retrieval_error": null,
+    "violation_complete": false,
+    "violation_retrieval_error": "Violation retrieval is incomplete: 2100 of 3000 inspection IDs have completed queries.",
+    "catalog_bulk_assessment": {
+      "official_bulk_resource_found": false,
+      "decision": "API used",
+      "reason": "The saved official catalog entries expose API endpoints but no current bulk CSV, ZIP, or download resource field."
+    }
+  },
+  "label_definition": {
+    "intended_positive": "at least one non-deleted Serious, Willful, or Repeat violation",
+    "official_viol_type_mapping": {
+      "S": "Serious",
+      "W": "Willful",
+      "R": "Repeat",
+      "O": "Other",
+      "U": "Unclassified"
+    },
+    "metadata_allowed_value_list": "S;Serious|W;Willful|R;Repeat|O;Other|U;Unclassified",
+    "deleted_rows_excluded_when": "delete_flag is X (official metadata: X = Deleted)",
+    "delete_flag_allowed_value_list": "X;Deleted"
+  },
+  "shapes": {
+    "inspection": [
+      3000,
+      10
+    ],
+    "violation": [
+      4428,
+      4
+    ],
+    "joined_inspection_level": [
+      3000,
+      12
+    ]
+  },
+  "columns": {
+    "inspection": [
+      "activity_nr",
+      "insp_scope",
+      "insp_type",
+      "naics_code",
+      "nr_in_estab",
+      "open_date",
+      "owner_type",
+      "safety_hlth",
+      "sic_code",
+      "site_state"
+    ],
+    "violation": [
+      "activity_nr",
+      "citation_id",
+      "delete_flag",
+      "viol_type"
+    ],
+    "joined_inspection_level": [
+      "activity_nr",
+      "insp_scope",
+      "insp_type",
+      "label",
+      "label_exclusion_reason",
+      "naics_code",
+      "nr_in_estab",
+      "open_date",
+      "owner_type",
+      "safety_hlth",
+      "sic_code",
+      "site_state"
+    ]
+  },
+  "inspection_date_range": {
+    "min": "2020-01-02T00:00:00",
+    "max": "2024-02-05T00:00:00"
+  },
+  "inspection_year_coverage": {
+    "2020": {
+      "requested_rows": 600,
+      "retrieved_rows": 600,
+      "unique_rows_retained": 600
+    },
+    "2021": {
+      "requested_rows": 600,
+      "retrieved_rows": 600,
+      "unique_rows_retained": 600
+    },
+    "2022": {
+      "requested_rows": 600,
+      "retrieved_rows": 600,
+      "unique_rows_retained": 600
+    },
+    "2023": {
+      "requested_rows": 600,
+      "retrieved_rows": 600,
+      "unique_rows_retained": 600
+    },
+    "2024": {
+      "requested_rows": 600,
+      "retrieved_rows": 600,
+      "unique_rows_retained": 600
+    }
+  },
+  "inspection_count_by_year": {
+    "2020": 600,
+    "2021": 600,
+    "2022": 600,
+    "2023": 600,
+    "2024": 600
+  },
+  "represented_year_count": 5,
+  "chronological_split": {
+    "possible": true,
+    "represented_periods": 5,
+    "periods": {
+      "train": {
+        "years": [
+          2020,
+          2021,
+          2022
+        ],
+        "row_count": 1800,
+        "min_open_date": "2020-01-02T00:00:00",
+        "max_open_date": "2022-02-07T00:00:00"
+      },
+      "validation": {
+        "years": [
+          2023
+        ],
+        "row_count": 600,
+        "min_open_date": "2023-01-03T00:00:00",
+        "max_open_date": "2023-02-07T00:00:00"
+      },
+      "test": {
+        "years": [
+          2024
+        ],
+        "row_count": 600,
+        "min_open_date": "2024-01-02T00:00:00",
+        "max_open_date": "2024-02-05T00:00:00"
+      }
+    }
+  },
+  "labelled_subset_chronological_split": {
+    "possible": true,
+    "represented_periods": 4,
+    "periods": {
+      "train": {
+        "years": [
+          2020,
+          2021
+        ],
+        "row_count": 1200,
+        "min_open_date": "2020-01-02T00:00:00",
+        "max_open_date": "2021-02-10T00:00:00"
+      },
+      "validation": {
+        "years": [
+          2022
+        ],
+        "row_count": 600,
+        "min_open_date": "2022-01-03T00:00:00",
+        "max_open_date": "2022-02-07T00:00:00"
+      },
+      "test": {
+        "years": [
+          2023
+        ],
+        "row_count": 300,
+        "min_open_date": "2023-01-03T00:00:00",
+        "max_open_date": "2023-01-23T00:00:00"
+      }
+    }
+  },
+  "label_counts_by_year": {
+    "2020": {
+      "positive": 168,
+      "negative": 432,
+      "labelled": 600
+    },
+    "2021": {
+      "positive": 141,
+      "negative": 459,
+      "labelled": 600
+    },
+    "2022": {
+      "positive": 154,
+      "negative": 446,
+      "labelled": 600
+    },
+    "2023": {
+      "positive": 89,
+      "negative": 211,
+      "labelled": 300
+    }
+  },
+  "state_coverage": {
+    "CA": 3000
+  },
+  "missing_value_percentages": {
+    "activity_nr": 0.0,
+    "open_date": 0.0,
+    "site_state": 0.0,
+    "naics_code": 0.0,
+    "sic_code": 100.0,
+    "insp_type": 0.0,
+    "insp_scope": 0.0,
+    "owner_type": 0.0,
+    "safety_hlth": 0.0,
+    "nr_in_estab": 0.0
+  },
+  "duplicate_activity_nr_count": 0,
+  "missing_activity_nr_count": 0,
+  "violation_retrieval_coverage": {
+    "completed_inspection_ids": 2100,
+    "total_inspection_ids": 3000,
+    "percentage": 70.0
+  },
+  "inspection_to_violation_match_rate": {
+    "matched_completed_inspection_ids": 1444,
+    "completed_inspection_ids": 2100,
+    "percentage_among_completed": 68.76
+  },
+  "label_coverage": {
+    "labelled_inspections": 2100,
+    "total_inspections": 3000,
+    "percentage": 70.0
+  },
+  "naics_coverage_percent": 100.0,
+  "sic_coverage_percent": 0.0,
+  "observed_viol_type_counts": {
+    "O": 3379,
+    "S": 992,
+    "R": 55,
+    "W": 2
+  },
+  "delete_flag_counts": {
+    "<NULL>": 4180,
+    "X": 248
+  },
+  "unknown_violation_category_counts": {},
+  "unknown_delete_flag_counts": {},
+  "deleted_violation_rows_excluded": 248,
+  "label_counts": {
+    "positive": 552,
+    "negative": 1548,
+    "excluded_or_unknown": 900,
+    "positive_class_percentage": 26.29
+  },
+  "candidate_leakage_free_preinspection_features": [
+    {
+      "field": "site_state",
+      "reason": "site location, available by inspection open_date and not an outcome field",
+      "coverage_percent": 100.0
+    },
+    {
+      "field": "naics_code",
+      "reason": "industry classification, available by inspection open_date and not an outcome field",
+      "coverage_percent": 100.0
+    },
+    {
+      "field": "owner_type",
+      "reason": "establishment ownership classification, available by inspection open_date and not an outcome field",
+      "coverage_percent": 100.0
+    }
+  ],
+  "likely_post_inspection_leakage_fields": [
+    "viol_type",
+    "citation_id",
+    "delete_flag",
+    "issuance_date",
+    "initial_penalty",
+    "current_penalty",
+    "contest_date",
+    "final_order_date",
+    "case_mod_date",
+    "close_case_date",
+    "close_conf_date",
+    "current-inspection violation counts",
+    "future inspection records"
+  ],
+  "minimum_usable_labelled_inspections": 2000,
+  "warnings": [
+    {
+      "type": "incomplete_violation_retrieval",
+      "coverage_percentage": 70.0,
+      "excluded_inspections": 900,
+      "message": "Metrics describe only inspections with completed violation retrieval; missing retrieval outcomes were not assumed negative."
+    }
+  ],
+  "scope_guardrails": [
+    "Historical decision-support prototype only.",
+    "Use only for supplied candidate ranking; never automated enforcement.",
+    "No claim of real OSHA cost savings.",
+    "Inspected establishments do not represent all workplaces."
+  ],
+  "feasibility_checks": {
+    "minimum_usable_labelled_inspections": true,
+    "reliable_activity_identifier": true,
+    "usable_open_date": true,
+    "confirmed_serious_willful_repeat_label_mapping": true,
+    "unknown_violation_types_handled_safely": true,
+    "positive_and_negative_examples": true,
+    "three_leakage_free_candidate_features": true,
+    "labelled_subset_chronological_split_possible": true,
+    "industry_or_rule_baseline_possible": true
+  },
+  "decision": "GO",
+  "failing_conditions": [],
+  "smallest_valid_scope_corrections": []
+}

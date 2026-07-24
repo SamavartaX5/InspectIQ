@@ -1,0 +1,325 @@
+[
+  {
+    "id": 10330,
+    "name": "Accident Lookup2",
+    "description": "This lookup table provides a listing of the codes used in the osha_accident and osha_accident_injury datasets.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_accident_lookup2",
+    "published_at": "2026-06-03T19:52:47",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "accident_lookup2",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "accidents",
+      "fatalities",
+      "injury or illness",
+      "occupations"
+    ],
+    "created_at": "2026-06-03T19:37:00",
+    "updated_at": "2026-06-03T19:53:18"
+  },
+  {
+    "id": 10331,
+    "name": "Accident",
+    "description": "This dataset provides information regarding incidents reported by employers and investigated by OSHA.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_accident",
+    "published_at": "2026-06-03T19:56:00",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "accident",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "accidents",
+      "fatalities",
+      "industries",
+      "state"
+    ],
+    "created_at": "2026-06-03T19:40:53",
+    "updated_at": "2026-06-03T19:56:22"
+  },
+  {
+    "id": 10332,
+    "name": "Accident Abstract",
+    "description": "This dataset provides a brief narrative describing the incident reported.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_accident_abstract",
+    "published_at": "2026-06-03T20:13:33",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "accident_abstract",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "accidents"
+    ],
+    "created_at": "2026-06-03T19:49:53",
+    "updated_at": "2026-06-03T20:14:06"
+  },
+  {
+    "id": 10333,
+    "name": "Accident Injury",
+    "description": "This dataset provides information about incidents reported to OSHA, such as information about the circumstances of the incident and about the injured person. Field completeness varies because of changes in data entry, technology, and policies. Refer to the Accident Lookup2 Dataset for Code Associations.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_accident_injury",
+    "published_at": "2026-06-03T20:13:38",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "accident_injury",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "accidents",
+      "age",
+      "fatalities",
+      "injury or illness",
+      "occupations",
+      "sex"
+    ],
+    "created_at": "2026-06-03T19:54:52",
+    "updated_at": "2026-06-03T20:14:10"
+  },
+  {
+    "id": 10334,
+    "name": "Inspection",
+    "description": "This dataset provides the inspection case detail for OSHA inspections. The dataset includes information about why the inspection was conducted.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_inspection",
+    "published_at": "2026-06-03T20:33:20",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "inspection",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "address",
+      "industries",
+      "inspection",
+      "labor unions",
+      "state"
+    ],
+    "created_at": "2026-06-03T20:02:30",
+    "updated_at": "2026-06-03T20:33:45"
+  },
+  {
+    "id": 10336,
+    "name": "Related Activity",
+    "description": "This dataset provides information on activities (Complaints, Referrals, Accidents and Inspections) related to OSHA inspections.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_related_activity",
+    "published_at": "2026-06-03T20:34:02",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "related_activity",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "accidents",
+      "complaints",
+      "inspection"
+    ],
+    "created_at": "2026-06-03T20:06:40",
+    "updated_at": "2026-06-03T20:34:36"
+  },
+  {
+    "id": 10337,
+    "name": "Emphasis Codes",
+    "description": "This dataset provides emphasis program codes related to OSHA inspections, such as national, strategic, local and state emphasis programs.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_emphasis_codes",
+    "published_at": "2026-06-03T20:34:45",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "emphasis_codes",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "inspection"
+    ],
+    "created_at": "2026-06-03T20:12:25",
+    "updated_at": "2026-06-03T20:35:04"
+  },
+  {
+    "id": 10338,
+    "name": "Violation",
+    "description": "This dataset provides details about violations and penalty assessments resulting from OSHA inspections, including the type and seriousness of the violations.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_violation",
+    "published_at": "2026-06-03T20:47:07",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "violation",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "abatements",
+      "citations",
+      "inspection",
+      "penalties",
+      "violations"
+    ],
+    "created_at": "2026-06-03T20:20:42",
+    "updated_at": "2026-06-03T20:48:44"
+  },
+  {
+    "id": 10340,
+    "name": "Violation Gen Duty Std",
+    "description": "This dataset provides information about citations of OSHA's general duty standard (5a1) including narrative text.",
+    "tablename": "OSHA_violation_gen_duty_std",
+    "published_at": "2026-06-03T20:47:13",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "violation_gen_duty_std",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "citations",
+      "inspection"
+    ],
+    "created_at": "2026-06-03T20:25:25",
+    "updated_at": "2026-06-03T20:48:35"
+  },
+  {
+    "id": 10356,
+    "name": "Optional Code Info",
+    "description": "This dataset provides optional information collected for OSHA inspections.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_optional_code_info",
+    "published_at": "2026-06-03T23:44:51",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "optional_code_info",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "inspection"
+    ],
+    "created_at": "2026-06-03T23:17:02",
+    "updated_at": "2026-06-03T23:45:23"
+  },
+  {
+    "id": 10357,
+    "name": "Violation Event",
+    "description": "This dataset provides details regarding the current status OSHA violations, including penalty, abatement and settlement.\r\n\r\nAdditional records can be viewed and/or downloaded from OSHA\u2019s website at www.osha.gov/data.",
+    "tablename": "OSHA_violation_event",
+    "published_at": "2026-06-03T23:44:54",
+    "dataset_type": 1,
+    "agency_id": 10,
+    "agency": {
+      "name": "Occupational Safety and Health Administration",
+      "abbr": "OSHA"
+    },
+    "frequency": "Daily",
+    "api_url": "violation_event",
+    "tablename_alias": null,
+    "category_id": 13,
+    "category": {
+      "name": "Enforcement"
+    },
+    "category_name": "Enforcement",
+    "status": 4,
+    "tag_list": [
+      "abatements",
+      "citations",
+      "inspection",
+      "penalties",
+      "violations"
+    ],
+    "created_at": "2026-06-03T23:26:30",
+    "updated_at": "2026-06-03T23:45:28"
+  }
+]
