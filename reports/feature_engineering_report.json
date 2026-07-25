@@ -1,0 +1,415 @@
+{
+  "status": "PASS",
+  "source_snapshot_id": "edbd4bd813ed8e1dbaba9e1c",
+  "feature_version": "day2-historical-v1",
+  "split_input_paths": {
+    "train": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\baseline\\splits\\train.csv",
+    "validation": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\baseline\\splits\\validation.csv",
+    "test_locked": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\baseline\\splits\\test_locked.csv"
+  },
+  "output_paths": {
+    "directory": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\features\\day2-historical-v1",
+    "train": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\features\\day2-historical-v1\\train_features.csv",
+    "validation": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\features\\day2-historical-v1\\validation_features.csv",
+    "test_locked": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\features\\day2-historical-v1\\test_locked_features.csv",
+    "manifest": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\features\\day2-historical-v1\\feature_manifest.json"
+  },
+  "artifacts_reused": true,
+  "splits": {
+    "train": {
+      "input_row_count": 1200,
+      "output_row_count": 1200,
+      "output_column_count": 14,
+      "open_date_range": {
+        "min": "2020-01-02",
+        "max": "2021-02-10"
+      },
+      "target_present": true,
+      "missing_value_percentages": {
+        "naics_group": 0.0,
+        "insp_type": 0.0,
+        "insp_scope": 0.0,
+        "owner_type": 0.0,
+        "safety_hlth": 0.0,
+        "nr_in_estab": 0.0,
+        "open_month": 0.0,
+        "industry_prior_inspection_count": 0.0,
+        "industry_prior_positive_count": 0.0,
+        "industry_prior_positive_rate_smoothed": 0.0,
+        "industry_history_status": 0.0
+      },
+      "feature_coverage_percentages": {
+        "naics_group": 100.0,
+        "insp_type": 100.0,
+        "insp_scope": 100.0,
+        "owner_type": 100.0,
+        "safety_hlth": 100.0,
+        "nr_in_estab": 100.0,
+        "open_month": 100.0,
+        "industry_prior_inspection_count": 100.0,
+        "industry_prior_positive_count": 100.0,
+        "industry_prior_positive_rate_smoothed": 100.0,
+        "industry_history_status": 100.0
+      },
+      "cold_start_percentage": 2.75,
+      "industry_history_status_counts": {
+        "cold_start_global_fallback": 14,
+        "industry_history": 1167,
+        "unseen_industry_fallback": 19
+      }
+    },
+    "validation": {
+      "input_row_count": 600,
+      "output_row_count": 600,
+      "output_column_count": 14,
+      "open_date_range": {
+        "min": "2022-01-03",
+        "max": "2022-02-07"
+      },
+      "target_present": true,
+      "missing_value_percentages": {
+        "naics_group": 0.0,
+        "insp_type": 0.0,
+        "insp_scope": 0.0,
+        "owner_type": 0.0,
+        "safety_hlth": 0.0,
+        "nr_in_estab": 0.0,
+        "open_month": 0.0,
+        "industry_prior_inspection_count": 0.0,
+        "industry_prior_positive_count": 0.0,
+        "industry_prior_positive_rate_smoothed": 0.0,
+        "industry_history_status": 0.0
+      },
+      "feature_coverage_percentages": {
+        "naics_group": 100.0,
+        "insp_type": 100.0,
+        "insp_scope": 100.0,
+        "owner_type": 100.0,
+        "safety_hlth": 100.0,
+        "nr_in_estab": 100.0,
+        "open_month": 100.0,
+        "industry_prior_inspection_count": 100.0,
+        "industry_prior_positive_count": 100.0,
+        "industry_prior_positive_rate_smoothed": 100.0,
+        "industry_history_status": 100.0
+      },
+      "cold_start_percentage": 0.17,
+      "industry_history_status_counts": {
+        "industry_history": 599,
+        "unseen_industry_fallback": 1
+      }
+    },
+    "test_locked": {
+      "input_row_count": 300,
+      "output_row_count": 300,
+      "output_column_count": 13,
+      "open_date_range": {
+        "min": "2023-01-03",
+        "max": "2023-01-23"
+      },
+      "target_present": false,
+      "missing_value_percentages": {
+        "naics_group": 0.0,
+        "insp_type": 0.0,
+        "insp_scope": 0.0,
+        "owner_type": 0.0,
+        "safety_hlth": 0.0,
+        "nr_in_estab": 0.0,
+        "open_month": 0.0,
+        "industry_prior_inspection_count": 0.0,
+        "industry_prior_positive_count": 0.0,
+        "industry_prior_positive_rate_smoothed": 0.0,
+        "industry_history_status": 0.0
+      },
+      "feature_coverage_percentages": {
+        "naics_group": 100.0,
+        "insp_type": 100.0,
+        "insp_scope": 100.0,
+        "owner_type": 100.0,
+        "safety_hlth": 100.0,
+        "nr_in_estab": 100.0,
+        "open_month": 100.0,
+        "industry_prior_inspection_count": 100.0,
+        "industry_prior_positive_count": 100.0,
+        "industry_prior_positive_rate_smoothed": 100.0,
+        "industry_history_status": 100.0
+      },
+      "cold_start_percentage": 0.0,
+      "industry_history_status_counts": {
+        "industry_history": 300
+      }
+    }
+  },
+  "establishment_key": {
+    "selected_strategy": "none",
+    "coverage_percentage": 0.0,
+    "distinct_key_count": 0,
+    "repeat_key_count": 0,
+    "repeat_key_row_coverage_percentage": 0.0,
+    "candidates": [
+      {
+        "strategy": "host_est_key",
+        "accepted": false,
+        "coverage_percentage": 0.0,
+        "reason": "Field is absent from the validated split inputs."
+      },
+      {
+        "strategy": "normalized_exact_name_address_zip",
+        "accepted": false,
+        "coverage_percentage": 0.0,
+        "reason": "Required establishment name, address, and ZIP fields are absent."
+      }
+    ],
+    "decision": "No defensible establishment identifier exists in the validated processed fields; establishment-history features are omitted."
+  },
+  "naics": {
+    "grouping": "2-digit",
+    "coverage_percentage": {
+      "train": 100.0,
+      "validation": 100.0,
+      "test": 100.0
+    },
+    "reason": "Reuses the measured 2-digit NAICS grouping selected by the Day 1 baseline."
+  },
+  "nr_in_estab": {
+    "source_field": "nr_in_estab",
+    "present_percentage": 100.0,
+    "valid_non_negative_integer_percentage": 100.0,
+    "minimum": 0,
+    "maximum": 516636,
+    "included": true,
+    "reason": "Included: values are present and parse as non-negative integers at or above configured coverage."
+  },
+  "generated_features": [
+    "naics_group",
+    "insp_type",
+    "insp_scope",
+    "owner_type",
+    "safety_hlth",
+    "nr_in_estab",
+    "open_month",
+    "industry_prior_inspection_count",
+    "industry_prior_positive_count",
+    "industry_prior_positive_rate_smoothed",
+    "industry_history_status"
+  ],
+  "feature_metadata": [
+    {
+      "feature_name": "naics_group",
+      "source_fields": [
+        "naics_code"
+      ],
+      "type": "categorical",
+      "timing_justification": "Two-digit NAICS is known before inspection.",
+      "missing_value_policy": "Retain empty categorical value or missing numeric value.",
+      "cold_start_policy": "Not applicable.",
+      "leakage_classification": "static_pre_inspection",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "insp_type",
+      "source_fields": [
+        "insp_type"
+      ],
+      "type": "categorical",
+      "timing_justification": "Inspection type is a pre-inspection source field.",
+      "missing_value_policy": "Retain empty categorical value or missing numeric value.",
+      "cold_start_policy": "Not applicable.",
+      "leakage_classification": "static_pre_inspection",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "insp_scope",
+      "source_fields": [
+        "insp_scope"
+      ],
+      "type": "categorical",
+      "timing_justification": "Inspection scope is a pre-inspection source field.",
+      "missing_value_policy": "Retain empty categorical value or missing numeric value.",
+      "cold_start_policy": "Not applicable.",
+      "leakage_classification": "static_pre_inspection",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "owner_type",
+      "source_fields": [
+        "owner_type"
+      ],
+      "type": "categorical",
+      "timing_justification": "Owner type is a pre-inspection source field.",
+      "missing_value_policy": "Retain empty categorical value or missing numeric value.",
+      "cold_start_policy": "Not applicable.",
+      "leakage_classification": "static_pre_inspection",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "safety_hlth",
+      "source_fields": [
+        "safety_hlth"
+      ],
+      "type": "categorical",
+      "timing_justification": "Safety/health indicator is a pre-inspection source field.",
+      "missing_value_policy": "Retain empty categorical value or missing numeric value.",
+      "cold_start_policy": "Not applicable.",
+      "leakage_classification": "static_pre_inspection",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "nr_in_estab",
+      "source_fields": [
+        "nr_in_estab"
+      ],
+      "type": "integer",
+      "timing_justification": "Reported establishment size is available with the candidate record.",
+      "missing_value_policy": "Retain empty categorical value or missing numeric value.",
+      "cold_start_policy": "Not applicable.",
+      "leakage_classification": "static_pre_inspection",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "open_month",
+      "source_fields": [
+        "open_date"
+      ],
+      "type": "integer",
+      "timing_justification": "Calendar month is derived from the candidate open date.",
+      "missing_value_policy": "Retain empty categorical value or missing numeric value.",
+      "cold_start_policy": "Not applicable.",
+      "leakage_classification": "static_pre_inspection",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "industry_prior_inspection_count",
+      "source_fields": [
+        "open_date",
+        "naics_code",
+        "serious_violation_found"
+      ],
+      "type": "integer",
+      "timing_justification": "Counts only labelled history with open_date strictly earlier than the candidate.",
+      "missing_value_policy": "Zero for no prior industry history.",
+      "cold_start_policy": "0",
+      "leakage_classification": "strict_prior_history",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "industry_prior_positive_count",
+      "source_fields": [
+        "open_date",
+        "naics_code",
+        "serious_violation_found"
+      ],
+      "type": "integer",
+      "timing_justification": "Counts positive labels only from strictly earlier history.",
+      "missing_value_policy": "Zero for no prior industry history.",
+      "cold_start_policy": "0",
+      "leakage_classification": "strict_prior_history",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "industry_prior_positive_rate_smoothed",
+      "source_fields": [
+        "open_date",
+        "naics_code",
+        "serious_violation_found"
+      ],
+      "type": "float",
+      "timing_justification": "Uses only the prior industry and global history available before the candidate date.",
+      "missing_value_policy": "Smoothed global prior rate fallback.",
+      "cold_start_policy": "0.0 when no prior labelled history exists.",
+      "leakage_classification": "strict_prior_history",
+      "available_during_candidate_scoring": true
+    },
+    {
+      "feature_name": "industry_history_status",
+      "source_fields": [
+        "open_date",
+        "naics_code"
+      ],
+      "type": "categorical",
+      "timing_justification": "Identifies observed, unseen, missing, and cold-start industry history without using candidate outcomes.",
+      "missing_value_policy": "Explicit fallback category.",
+      "cold_start_policy": "cold_start_global_fallback",
+      "leakage_classification": "strict_prior_history",
+      "available_during_candidate_scoring": true
+    }
+  ],
+  "excluded_candidate_fields": {
+    "establishment_history": "No defensible establishment identifier exists in the validated processed fields; establishment-history features are omitted.",
+    "sic_code": "100% missing in the Day 1 validated dataset.",
+    "site_state_or_state_flag": "All processed observations are CA, so this feature is constant.",
+    "host_est_key_and_name_address_zip": "Not present in the validated split input schema.",
+    "violation_and_case_fields": "Prohibited because they reveal inspection outcomes or post-inspection events."
+  },
+  "numeric_historical_feature_ranges": {
+    "train": {
+      "industry_prior_inspection_count": {
+        "min": 0,
+        "max": 317
+      },
+      "industry_prior_positive_count": {
+        "min": 0,
+        "max": 59
+      },
+      "industry_prior_positive_rate_smoothed": {
+        "min": 0.0,
+        "max": 0.5402467685076381
+      }
+    },
+    "validation": {
+      "industry_prior_inspection_count": {
+        "min": 0,
+        "max": 318
+      },
+      "industry_prior_positive_count": {
+        "min": 0,
+        "max": 60
+      },
+      "industry_prior_positive_rate_smoothed": {
+        "min": 0.114375,
+        "max": 0.3990702479338843
+      }
+    },
+    "test_locked": {
+      "industry_prior_inspection_count": {
+        "min": 11,
+        "max": 480
+      },
+      "industry_prior_positive_count": {
+        "min": 1,
+        "max": 89
+      },
+      "industry_prior_positive_rate_smoothed": {
+        "min": 0.08792735042735043,
+        "max": 0.41964699074074074
+      }
+    }
+  },
+  "leakage_checks": {
+    "history_requires_open_date_strictly_less_than_candidate": true,
+    "current_candidate_label_not_used_for_history": true,
+    "candidate_batch_labels_not_used": true,
+    "validation_history_is_training_only": true,
+    "locked_test_history_is_training_plus_validation_only": true,
+    "locked_test_target_absent": true,
+    "prohibited_feature_columns_absent": true
+  },
+  "same_day_history_checks": {
+    "training_rows_processed_as_date_batches": true,
+    "same_date_labels_not_visible_within_batch": true
+  },
+  "output_hashes": {
+    "test_locked_features.csv": "ce5c24e8e84fffae64c86bed2e7930e1afea32f9c69ab491b631c644b3e6357a",
+    "train_features.csv": "7834a0a0185131e4e3f76c434e3f08df851371601edb561765efbd2d489a307e",
+    "validation_features.csv": "32b3180369545cb407986d76e14ef6516506a2d3644623d942e4b81b35cf4167"
+  },
+  "pipeline_runtime_seconds": 0.0332,
+  "limitations": [
+    "Exact establishment matching may miss changes in names or addresses.",
+    "No fuzzy establishment matching is used.",
+    "Historical OSHA inspections are selection-biased.",
+    "Historical features describe only represented inspection history.",
+    "Candidate batches receive no outcome information from other rows in the same batch.",
+    "Locked-test labels remain unused."
+  ]
+}
