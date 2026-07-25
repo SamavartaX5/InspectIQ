@@ -1,0 +1,18 @@
+{
+  "feature_version": "day2-historical-v1",
+  "industry_naics_digits": 2,
+  "historical_rate_alpha": 5.0,
+  "static_features": [
+    "naics_group",
+    "insp_type",
+    "insp_scope",
+    "owner_type",
+    "safety_hlth",
+    "nr_in_estab",
+    "open_month"
+  ],
+  "employee_count": {
+    "minimum_coverage_percentage": 95.0,
+    "require_non_negative_integer": true
+  }
+}

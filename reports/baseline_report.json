@@ -1,0 +1,464 @@
+{
+  "status": "PASS",
+  "source_snapshot_id": "edbd4bd813ed8e1dbaba9e1c",
+  "source": "Official U.S. Department of Labor / OSHA cache",
+  "input": {
+    "labelled_row_count": 2100,
+    "labelled_hash": "a7081e6875721ce8d380ef653853fea944b7cf9b2a505e8c51001a106ebe72b4"
+  },
+  "chronological_split": {
+    "strategy": "fallback_earliest_train_penultimate_validation_latest_test",
+    "rationale": "The preferred 2020-2024 split is not fully labelled; used the earliest available years for training, the penultimate labelled year for validation, and the latest labelled year as the locked test period.",
+    "preferred_split": {
+      "train": [
+        2020,
+        2021,
+        2022
+      ],
+      "validation": [
+        2023
+      ],
+      "test": [
+        2024
+      ]
+    },
+    "available_labelled_years": [
+      2020,
+      2021,
+      2022,
+      2023
+    ],
+    "selected_years": {
+      "train": [
+        2020,
+        2021
+      ],
+      "validation": [
+        2022
+      ],
+      "test": [
+        2023
+      ]
+    },
+    "periods": {
+      "train": {
+        "years": [
+          2020,
+          2021
+        ],
+        "row_count": 1200,
+        "open_date_range": {
+          "min": "2020-01-02",
+          "max": "2021-02-10"
+        }
+      },
+      "validation": {
+        "years": [
+          2022
+        ],
+        "row_count": 600,
+        "open_date_range": {
+          "min": "2022-01-03",
+          "max": "2022-02-07"
+        }
+      },
+      "test": {
+        "years": [
+          2023
+        ],
+        "row_count": 300,
+        "open_date_range": {
+          "min": "2023-01-03",
+          "max": "2023-01-23"
+        }
+      }
+    },
+    "strictly_ordered": true,
+    "id_overlap_count": 0
+  },
+  "split_artifacts": {
+    "directory": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\baseline\\splits",
+    "manifest": {
+      "strategy": "fallback_earliest_train_penultimate_validation_latest_test",
+      "rationale": "The preferred 2020-2024 split is not fully labelled; used the earliest available years for training, the penultimate labelled year for validation, and the latest labelled year as the locked test period.",
+      "preferred_split": {
+        "train": [
+          2020,
+          2021,
+          2022
+        ],
+        "validation": [
+          2023
+        ],
+        "test": [
+          2024
+        ]
+      },
+      "available_labelled_years": [
+        2020,
+        2021,
+        2022,
+        2023
+      ],
+      "selected_years": {
+        "train": [
+          2020,
+          2021
+        ],
+        "validation": [
+          2022
+        ],
+        "test": [
+          2023
+        ]
+      },
+      "periods": {
+        "train": {
+          "years": [
+            2020,
+            2021
+          ],
+          "row_count": 1200,
+          "open_date_range": {
+            "min": "2020-01-02",
+            "max": "2021-02-10"
+          }
+        },
+        "validation": {
+          "years": [
+            2022
+          ],
+          "row_count": 600,
+          "open_date_range": {
+            "min": "2022-01-03",
+            "max": "2022-02-07"
+          }
+        },
+        "test": {
+          "years": [
+            2023
+          ],
+          "row_count": 300,
+          "open_date_range": {
+            "min": "2023-01-03",
+            "max": "2023-01-23"
+          }
+        }
+      },
+      "strictly_ordered": true,
+      "id_overlap_count": 0,
+      "file_hashes": {
+        "train.csv": "3b0301c58fc35cfc6ed80864edc665fefc6ec7709eaa4343dadeac281fe0705c",
+        "validation.csv": "cb8d4835f1e46b25cf3433bf2b6e6c818cf04a3c8cb2b29f6fc04b521fd46412",
+        "test_locked.csv": "d593006d7c41d142b7bb921837f1e124ada57e4d89092ca6445287b3b8c2232e"
+      }
+    }
+  },
+  "baseline": {
+    "method": "NAICS historical serious/willful/repeat rate ranking",
+    "training_only": true,
+    "naics_grouping": {
+      "candidates": {
+        "3": {
+          "digits": 3,
+          "non_missing_rows": 1200,
+          "group_count": 82,
+          "adequate_group_count": 16,
+          "adequate_row_coverage": 0.6408333333333334,
+          "group_sizes": {
+            "111": 26,
+            "112": 16,
+            "113": 2,
+            "115": 37,
+            "212": 31,
+            "213": 6,
+            "221": 7,
+            "236": 124,
+            "237": 19,
+            "238": 175,
+            "311": 46,
+            "312": 4,
+            "314": 1,
+            "315": 6,
+            "321": 9,
+            "322": 6,
+            "323": 1,
+            "324": 12,
+            "325": 10,
+            "326": 7,
+            "327": 17,
+            "331": 8,
+            "332": 30,
+            "333": 5,
+            "334": 4,
+            "335": 7,
+            "336": 30,
+            "337": 24,
+            "339": 8,
+            "423": 17,
+            "424": 23,
+            "425": 1,
+            "441": 14,
+            "442": 6,
+            "444": 7,
+            "445": 15,
+            "446": 1,
+            "447": 2,
+            "448": 1,
+            "452": 7,
+            "453": 5,
+            "481": 1,
+            "482": 1,
+            "483": 1,
+            "484": 14,
+            "485": 11,
+            "488": 8,
+            "491": 2,
+            "492": 3,
+            "493": 14,
+            "511": 1,
+            "512": 1,
+            "515": 1,
+            "517": 1,
+            "521": 1,
+            "522": 1,
+            "523": 1,
+            "524": 1,
+            "531": 4,
+            "532": 2,
+            "541": 15,
+            "561": 59,
+            "562": 10,
+            "611": 17,
+            "621": 12,
+            "622": 38,
+            "623": 31,
+            "624": 6,
+            "711": 14,
+            "712": 6,
+            "713": 10,
+            "721": 13,
+            "722": 29,
+            "811": 32,
+            "812": 4,
+            "813": 5,
+            "921": 7,
+            "922": 34,
+            "923": 2,
+            "925": 1,
+            "926": 8,
+            "928": 1
+          }
+        },
+        "2": {
+          "digits": 2,
+          "non_missing_rows": 1200,
+          "group_count": 23,
+          "adequate_group_count": 15,
+          "adequate_row_coverage": 0.93,
+          "group_sizes": {
+            "11": 81,
+            "21": 37,
+            "22": 7,
+            "23": 318,
+            "31": 57,
+            "32": 62,
+            "33": 116,
+            "42": 41,
+            "44": 46,
+            "45": 12,
+            "48": 36,
+            "49": 19,
+            "51": 4,
+            "52": 4,
+            "53": 6,
+            "54": 15,
+            "56": 69,
+            "61": 17,
+            "62": 87,
+            "71": 30,
+            "72": 42,
+            "81": 41,
+            "92": 53
+          }
+        }
+      },
+      "selected_digits": 2,
+      "selection_rule": "Use 3-digit NAICS when at least 80% of training rows are in groups meeting the minimum size; otherwise use 2-digit NAICS."
+    },
+    "smoothing": {
+      "formula": "(positive_count + alpha * global_positive_rate) / (row_count + alpha)",
+      "alpha": 5.0
+    },
+    "minimum_group_size": 20,
+    "global_positive_rate": 0.2575,
+    "training_group_rates": {
+      "11": {
+        "row_count": 81,
+        "positive_count": 22,
+        "smoothed_rate": 0.27078488372093024
+      },
+      "21": {
+        "row_count": 37,
+        "positive_count": 6,
+        "smoothed_rate": 0.17351190476190476
+      },
+      "22": {
+        "row_count": 7,
+        "positive_count": 3,
+        "smoothed_rate": 0.3572916666666666
+      },
+      "23": {
+        "row_count": 318,
+        "positive_count": 60,
+        "smoothed_rate": 0.18974458204334366
+      },
+      "31": {
+        "row_count": 57,
+        "positive_count": 22,
+        "smoothed_rate": 0.3756048387096774
+      },
+      "32": {
+        "row_count": 62,
+        "positive_count": 23,
+        "smoothed_rate": 0.36250000000000004
+      },
+      "33": {
+        "row_count": 116,
+        "positive_count": 47,
+        "smoothed_rate": 0.3990702479338843
+      },
+      "42": {
+        "row_count": 41,
+        "positive_count": 12,
+        "smoothed_rate": 0.2888586956521739
+      },
+      "44": {
+        "row_count": 46,
+        "positive_count": 9,
+        "smoothed_rate": 0.2017156862745098
+      },
+      "45": {
+        "row_count": 12,
+        "positive_count": 2,
+        "smoothed_rate": 0.19338235294117648
+      },
+      "48": {
+        "row_count": 36,
+        "positive_count": 6,
+        "smoothed_rate": 0.17774390243902438
+      },
+      "49": {
+        "row_count": 19,
+        "positive_count": 4,
+        "smoothed_rate": 0.2203125
+      },
+      "51": {
+        "row_count": 4,
+        "positive_count": 2,
+        "smoothed_rate": 0.3652777777777778
+      },
+      "52": {
+        "row_count": 4,
+        "positive_count": 1,
+        "smoothed_rate": 0.25416666666666665
+      },
+      "53": {
+        "row_count": 6,
+        "positive_count": 1,
+        "smoothed_rate": 0.20795454545454548
+      },
+      "54": {
+        "row_count": 15,
+        "positive_count": 1,
+        "smoothed_rate": 0.114375
+      },
+      "56": {
+        "row_count": 69,
+        "positive_count": 10,
+        "smoothed_rate": 0.15253378378378377
+      },
+      "61": {
+        "row_count": 17,
+        "positive_count": 5,
+        "smoothed_rate": 0.2857954545454545
+      },
+      "62": {
+        "row_count": 87,
+        "positive_count": 22,
+        "smoothed_rate": 0.253125
+      },
+      "71": {
+        "row_count": 30,
+        "positive_count": 12,
+        "smoothed_rate": 0.3796428571428571
+      },
+      "72": {
+        "row_count": 42,
+        "positive_count": 12,
+        "smoothed_rate": 0.2827127659574468
+      },
+      "81": {
+        "row_count": 41,
+        "positive_count": 11,
+        "smoothed_rate": 0.2671195652173913
+      },
+      "92": {
+        "row_count": 53,
+        "positive_count": 16,
+        "smoothed_rate": 0.29806034482758625
+      }
+    }
+  },
+  "validation": {
+    "scoring_output": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\baseline\\validation_scored.csv",
+    "metrics": {
+      "row_count": 600,
+      "positive_count": 154,
+      "negative_count": 446,
+      "ranking_at": {
+        "5": {
+          "fraction": 0.05,
+          "selected": 30,
+          "selected_positives": 8,
+          "precision": 0.26666666666666666,
+          "recall": 0.05194805194805195,
+          "lift": 1.038961038961039
+        },
+        "10": {
+          "fraction": 0.1,
+          "selected": 60,
+          "selected_positives": 19,
+          "precision": 0.31666666666666665,
+          "recall": 0.12337662337662338,
+          "lift": 1.2337662337662338
+        },
+        "20": {
+          "fraction": 0.2,
+          "selected": 120,
+          "selected_positives": 43,
+          "precision": 0.35833333333333334,
+          "recall": 0.2792207792207792,
+          "lift": 1.3961038961038963
+        }
+      },
+      "pr_auc": 0.30760310902070775,
+      "average_precision": 0.30760310902070775,
+      "roc_auc": 0.5873347504513424
+    }
+  },
+  "locked_test": {
+    "row_count": 300,
+    "open_date_range": {
+      "min": "2023-01-03",
+      "max": "2023-01-23"
+    },
+    "metrics_calculated": false
+  },
+  "limitations": [
+    "Metrics describe validation only; the locked test set was not scored or used for baseline selection.",
+    "Industry rates are estimated exclusively from training labels and use transparent smoothing.",
+    "Missing, unseen, and sparse NAICS groups use the training global positive-rate fallback.",
+    "This is a descriptive ranking baseline, not a calibrated probability model or an operational decision rule."
+  ]
+}
