@@ -1,0 +1,114 @@
+{
+  "snapshot_id": "edbd4bd813ed8e1dbaba9e1c",
+  "source": "Official U.S. Department of Labor / OSHA cache",
+  "raw_inspection_shape": [
+    3000,
+    10
+  ],
+  "raw_violation_shape": [
+    4428,
+    4
+  ],
+  "labelled_table_shape": [
+    2100,
+    11
+  ],
+  "excluded_table_shape": [
+    900,
+    11
+  ],
+  "rejected_table_shape": [
+    0,
+    0
+  ],
+  "duplicate_inspection_count": 0,
+  "invalid_date_count": 0,
+  "missing_value_percentages": {
+    "activity_nr": 0.0,
+    "open_date": 0.0,
+    "site_state": 0.0,
+    "naics_code": 0.0,
+    "sic_code": 100.0,
+    "insp_type": 0.0,
+    "insp_scope": 0.0,
+    "owner_type": 0.0,
+    "safety_hlth": 0.0,
+    "nr_in_estab": 0.0
+  },
+  "naics_coverage_percentage": 100.0,
+  "sic_coverage_percentage": 0.0,
+  "label_counts": {
+    "positive": 552,
+    "negative": 1548,
+    "labelled": 2100,
+    "positive_rate_percentage": 26.29
+  },
+  "labelled_row_counts_by_year": {
+    "2020": 600,
+    "2021": 600,
+    "2022": 600,
+    "2023": 300
+  },
+  "excluded_counts_and_reasons": {
+    "count": 900,
+    "reasons": {
+      "violation_retrieval_incomplete": 900
+    }
+  },
+  "completed_vs_incomplete_retrieval": {
+    "completed_id_count": 2100,
+    "incomplete_id_count": 900,
+    "incomplete_outcomes_assumed_negative": false
+  },
+  "rejected_counts_and_reasons": {
+    "count": 0,
+    "reasons": {}
+  },
+  "unknown_categorical_values": {},
+  "unknown_violation_category_counts": {},
+  "feature_columns_retained": [
+    "activity_nr",
+    "open_date",
+    "site_state",
+    "naics_code",
+    "sic_code",
+    "insp_type",
+    "insp_scope",
+    "owner_type",
+    "safety_hlth",
+    "nr_in_estab"
+  ],
+  "leakage_fields_excluded": [
+    "viol_type",
+    "citation_id",
+    "delete_flag",
+    "current_penalty",
+    "initial_penalty",
+    "issuance_date",
+    "contest_date",
+    "final_order_date",
+    "close_case_date",
+    "close_conf_date",
+    "case_mod_date",
+    "why_no_insp"
+  ],
+  "raw_snapshot": {
+    "path": "data\\raw\\snapshots\\edbd4bd813ed8e1dbaba9e1c",
+    "reused": true,
+    "hashes": {
+      "inspections.csv": "57a583721850bcb6a6d93bf2b0d0e3d61c8c083c4a138c1ae5f7f36846baae07",
+      "violations.csv": "6d3735134b6d2adf49d385689fa5267d3ffb40b57f4a469d5f81d478795fa38f"
+    }
+  },
+  "processed_output": {
+    "path": "data\\processed\\edbd4bd813ed8e1dbaba9e1c",
+    "reused": true,
+    "hashes": {
+      "labelled_inspections.csv": "a7081e6875721ce8d380ef653853fea944b7cf9b2a505e8c51001a106ebe72b4",
+      "excluded_inspections.csv": "357d376ee6f70dfae89341bac7237daf6b08bfd802cecf25d0433803c703d9e3",
+      "rejected_inspections.csv": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    }
+  },
+  "runtime_seconds": 0.035,
+  "code_version": "day1-data-foundation-v1"
+}

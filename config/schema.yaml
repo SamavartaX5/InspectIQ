@@ -1,0 +1,20 @@
+{
+  "schema_version": "day1-data-foundation-v1",
+  "inspection_fields": [
+    {"name": "activity_nr", "required": true, "non_null": true, "feature": true},
+    {"name": "open_date", "required": true, "non_null": true, "feature": true},
+    {"name": "site_state", "required": true, "non_null": true, "feature": true},
+    {"name": "naics_code", "required": true, "feature": true},
+    {"name": "sic_code", "required": true, "feature": true},
+    {"name": "insp_type", "required": true, "feature": true},
+    {"name": "insp_scope", "required": true, "feature": true},
+    {"name": "owner_type", "required": true, "feature": true, "allowed_values": ["A", "B", "C", "D"]},
+    {"name": "safety_hlth", "required": true, "feature": true, "allowed_values": ["H", "S"]},
+    {"name": "nr_in_estab", "required": true, "feature": true}
+  ],
+  "prohibited_leakage_columns": [
+    "viol_type", "citation_id", "delete_flag", "current_penalty", "initial_penalty",
+    "issuance_date", "contest_date", "final_order_date", "close_case_date",
+    "close_conf_date", "case_mod_date", "why_no_insp"
+  ]
+}
