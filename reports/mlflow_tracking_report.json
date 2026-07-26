@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "mlflow_version": "3.14.0",
+  "tracking_uri": "sqlite:///mlflow.db",
+  "artifact_root": "mlartifacts",
+  "tracking_batch_id": "8dee03644ca23bbe6480",
+  "experiments": {
+    "day3": "1",
+    "day4": "2"
+  },
+  "expected_day3_run_count": 8,
+  "logged_day3_run_count": 8,
+  "expected_day4_run_count": 3,
+  "logged_day4_run_count": 3,
+  "newly_created_run_count": 0,
+  "reused_run_count": 11,
+  "runs": [
+    {
+      "logical_run_key": "day3:exp_01_logistic_regression:8dee03644ca23bbe6480",
+      "mlflow_run_id": "f54f2a4f82784897b660471223b72f37",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day3:exp_02_logistic_regression:8dee03644ca23bbe6480",
+      "mlflow_run_id": "669ae17949114095a3d8beae35754d90",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day3:exp_03_logistic_regression:8dee03644ca23bbe6480",
+      "mlflow_run_id": "4dc36cdc3a9d442e9862d6c9d2ed59e5",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day3:exp_04_logistic_regression:8dee03644ca23bbe6480",
+      "mlflow_run_id": "54ba95090724447abe6373546a87be19",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day3:exp_05_random_forest:8dee03644ca23bbe6480",
+      "mlflow_run_id": "37407ff0dc264129809f815bed6b9932",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day3:exp_06_random_forest:8dee03644ca23bbe6480",
+      "mlflow_run_id": "19a0ddffd289411d89b1eb56014242c7",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day3:exp_07_hist_gradient_boosting:8dee03644ca23bbe6480",
+      "mlflow_run_id": "a56567f850e74d2dbf21bca6c7edf1c1",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day3:exp_08_hist_gradient_boosting:8dee03644ca23bbe6480",
+      "mlflow_run_id": "5df8e717c08a49bbbfecd0cd3db6866d",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day4:uncalibrated:8dee03644ca23bbe6480",
+      "mlflow_run_id": "80c4a02418f34a2297721809b4cc0343",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day4:sigmoid:8dee03644ca23bbe6480",
+      "mlflow_run_id": "003a3599d4b94ed8bcb86b852cf79efd",
+      "reused": true
+    },
+    {
+      "logical_run_key": "day4:isotonic:8dee03644ca23bbe6480",
+      "mlflow_run_id": "124e6b0661224c0a8432b8ee850cc6eb",
+      "reused": true
+    }
+  ],
+  "selected_model_run": "exp_05_random_forest",
+  "selected_calibration_method": "uncalibrated",
+  "final_candidate_artifact_logged": true,
+  "report_artifacts_logged": true,
+  "locked_test_labels_accessed": false,
+  "locked_test_metrics_calculated": false,
+  "locked_test_predictions_created": false,
+  "runtime_seconds": 0.4114,
+  "limitations": [
+    "Local retrospective evidence tracking only; no models were trained or scored."
+  ]
+}
