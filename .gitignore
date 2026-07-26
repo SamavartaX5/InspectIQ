@@ -9,6 +9,10 @@ htmlcov/
 .env.*
 !.env.example
 artifacts/
+mlflow.db
+mlartifacts/
+mlruns/
+*.mlflow.tmp
 data/raw/
 data/interim/
 data/processed/
