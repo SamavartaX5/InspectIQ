@@ -1,0 +1,31 @@
+{
+  "automatic_enforcement": false,
+  "download_generation_checks": true,
+  "feature_version": "day2-historical-v1",
+  "global_importance_feature_count": 11,
+  "global_importance_sum": 1.0000000000000002,
+  "limitations": [
+    "No locked candidate labels were accessed.",
+    "No out-of-time performance metrics were calculated.",
+    "Scores are uncalibrated model outputs, not verified probabilities.",
+    "Global and local explanations describe fitted-model behaviour, not causality.",
+    "Rankings support human review and do not automatically initiate enforcement."
+  ],
+  "local_explanation_feature_count": 11,
+  "locked_labels_accessed": false,
+  "model_loaded": true,
+  "model_refit_attempted": false,
+  "performance_metrics_calculated": false,
+  "prediction_run_id": "e0a880a30016dbc04085",
+  "priority_count_check": true,
+  "prohibited_fields_absent": true,
+  "rank_order_check": true,
+  "ranked_row_count": 300,
+  "required_column_checks": true,
+  "runtime_seconds": 0.7637,
+  "score_range_checks": true,
+  "source_snapshot_id": "edbd4bd813ed8e1dbaba9e1c",
+  "status": "PASS",
+  "target_absent": true,
+  "top_10_row_count": 30
+}
