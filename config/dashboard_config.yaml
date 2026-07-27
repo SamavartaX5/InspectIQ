@@ -1,0 +1,9 @@
+dashboard_version: day5c-human-review-v1
+expected_ranked_rows: 300
+expected_top_10_rows: 30
+reports:
+  batch_prediction: reports/batch_prediction_report.json
+  model_comparison: reports/model_comparison_report.json
+  calibration: reports/calibration_report.json
+  mlflow_tracking: reports/mlflow_tracking_report.json
+  feature_engineering: reports/feature_engineering_report.json
