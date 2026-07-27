@@ -1,0 +1,6 @@
+prediction_version: day5b-offline-ranking-v1
+top_fractions:
+  top_5_percent: 0.05
+  top_10_percent: 0.10
+  top_20_percent: 0.20
+output_root: artifacts/predictions/day5b

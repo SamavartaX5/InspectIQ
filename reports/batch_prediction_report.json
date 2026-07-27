@@ -1,0 +1,61 @@
+{
+  "artifacts_reused": true,
+  "automatic_enforcement": false,
+  "evaluation_performed": false,
+  "feature_version": "day2-historical-v1",
+  "final_calibration_applied": false,
+  "input_column_count": 13,
+  "input_row_count": 300,
+  "labels_accessed": false,
+  "limitations": [
+    "No labels were accessed for the 2023 candidate batch.",
+    "No test performance metrics were calculated.",
+    "Scores are uncalibrated model outputs.",
+    "A score is not a verified probability of a serious violation.",
+    "Historical OSHA inspection data is selection-biased.",
+    "The model ranks only the supplied candidate batch.",
+    "Rankings support human review and do not automatically initiate enforcement.",
+    "A later labelled evaluation is required to measure real out-of-time performance."
+  ],
+  "locked_candidate_input_hash": "ce5c24e8e84fffae64c86bed2e7930e1afea32f9c69ab491b631c644b3e6357a",
+  "locked_candidate_input_path": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\features\\day2-historical-v1\\test_locked_features.csv",
+  "model_artifact_hash": "c54c5bef72355be3a01e94dc64a092b9c5bbc4fdc255a8b217df6f0aa3b12686",
+  "model_artifact_path": "artifacts\\models\\day4\\5ed044f95d5bc1dd\\final\\final_candidate.joblib",
+  "open_date_range": {
+    "maximum": "2023-01-23",
+    "minimum": "2023-01-03"
+  },
+  "performance_metrics_calculated": false,
+  "prediction_run_id": "e0a880a30016dbc04085",
+  "ranked_output_hash": "505b27f15d092f8bad961ac3a9225e5184cc351e67356f6a76186a89991b407a",
+  "ranked_output_path": "artifacts\\predictions\\day5b\\e0a880a30016dbc04085\\ranked_candidates.csv",
+  "review_priority_counts": {
+    "elevated_priority": 30,
+    "high_priority": 15,
+    "highest_priority": 15,
+    "standard_priority": 240
+  },
+  "runtime_seconds": 0.741,
+  "score_range_checks": {
+    "finite": true,
+    "within_zero_to_one": true
+  },
+  "score_summary": {
+    "maximum": 0.6862399065386486,
+    "mean": 0.26729604374435123,
+    "median": 0.24888931253148933,
+    "minimum": 0.03070362840332363,
+    "standard_deviation": 0.11516015217177038
+  },
+  "selected_day3_experiment": "exp_05_random_forest",
+  "selected_day4_method": "uncalibrated",
+  "source_snapshot_id": "edbd4bd813ed8e1dbaba9e1c",
+  "status": "PASS",
+  "top_10_output_hash": "5ff0c417962a83156cdf29d5407ba4dc357af66e9069d94b6bd704b46318d6ad",
+  "top_10_output_path": "artifacts\\predictions\\day5b\\e0a880a30016dbc04085\\top_10_percent_candidates.csv",
+  "top_counts": {
+    "top_10_percent": 30,
+    "top_20_percent": 60,
+    "top_5_percent": 15
+  }
+}
