@@ -1,0 +1,13 @@
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    # The image contains code and committed reports only. Supply frozen local
+    # artifacts explicitly; the dashboard never regenerates them in-container.
+    volumes:
+      - ./data:/app/data:ro
+      - ./artifacts:/app/artifacts:ro
+      - ./reports:/app/reports:ro

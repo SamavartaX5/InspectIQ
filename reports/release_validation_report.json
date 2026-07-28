@@ -1,0 +1,135 @@
+{
+  "artifact_checks": {
+    "artifacts": [
+      "artifacts/models/day4/5ed044f95d5bc1dd/final/final_candidate.joblib",
+      "artifacts/monitoring/day6/0b1490c5daa560dc0b34/future_outcome_template.csv",
+      "artifacts/monitoring/day6/0b1490c5daa560dc0b34/monitoring_manifest.json",
+      "artifacts/monitoring/day6/0b1490c5daa560dc0b34/review_queue_template.csv",
+      "artifacts/predictions/day5b/e0a880a30016dbc04085/ranked_candidates.csv",
+      "artifacts/predictions/day5b/e0a880a30016dbc04085/top_10_percent_candidates.csv"
+    ],
+    "feature_version": "day2-historical-v1",
+    "hashes": {
+      "model": true,
+      "monitoring": true,
+      "ranked": true,
+      "top_10": true
+    },
+    "safety_flags": {
+      "automatic_enforcement": true,
+      "labels_accessed": true,
+      "model_refit_attempted": true,
+      "outcome_fairness_metrics_calculated": true,
+      "performance_metrics_calculated": true,
+      "prediction_artifact_modified": true
+    },
+    "selected_calibration_method": "uncalibrated",
+    "selected_experiment": "exp_05_random_forest",
+    "source_snapshot_id": "edbd4bd813ed8e1dbaba9e1c",
+    "valid": true
+  },
+  "ci_workflow_checks": {
+    "compileall": true,
+    "docker_build": true,
+    "least_privilege": true,
+    "no_secrets": true,
+    "python_3_13": true,
+    "release_validation": true,
+    "required_triggers": true,
+    "unittest": true,
+    "yaml_parses": true
+  },
+  "configuration_checks": {
+    "files": [
+      "config/dashboard_config.yaml",
+      "config/monitoring_config.yaml",
+      "config/release_config.yaml"
+    ],
+    "valid": true
+  },
+  "docker_contract_checks": {
+    "binds_container_address": true,
+    "env_excluded": true,
+    "generated_state_excluded": true,
+    "non_root_user": true,
+    "port_8501": true,
+    "python_3_13_slim": true,
+    "pythonpath": true,
+    "streamlit_command": true
+  },
+  "failures": [],
+  "feature_version": "day2-historical-v1",
+  "governance_checks": {
+    "future_template_headers_only": true,
+    "human_review_fields_checked": true
+  },
+  "hash_checks": {
+    "model": true,
+    "monitoring": true,
+    "ranked": true,
+    "top_10": true
+  },
+  "ignored_artifact_policy_checks": {
+    "git_available": true,
+    "no_generated_or_secret_files_tracked": true
+  },
+  "limitations": [
+    "Candidate ranking supports human review; there is no automatic enforcement.",
+    "The 2023 candidate batch is awaiting complete outcome labels.",
+    "This release validation does not load labels, calculate performance or fairness metrics, fit models, or regenerate predictions.",
+    "The selected final candidate uses uncalibrated model output and retrospective validation only."
+  ],
+  "locked_candidate_safety_checks": {
+    "automatic_enforcement": true,
+    "labels_accessed": true,
+    "model_refit_attempted": true,
+    "outcome_fairness_metrics_calculated": true,
+    "performance_metrics_calculated": true,
+    "prediction_artifact_modified": true
+  },
+  "mode": "local",
+  "monitoring_safety_checks": {
+    "health_independent_from_pipeline": true,
+    "monitoring_artifacts_checked": true
+  },
+  "platform": "Windows",
+  "python_version": "3.13.14",
+  "release_validation_version": "day7a-release-v1",
+  "report_checks": {
+    "files": [
+      "reports/baseline_report.json",
+      "reports/batch_prediction_report.json",
+      "reports/calibration_report.json",
+      "reports/dashboard_validation_report.json",
+      "reports/data_foundation_report.json",
+      "reports/feasibility_report.json",
+      "reports/feature_engineering_report.json",
+      "reports/mlflow_tracking_report.json",
+      "reports/model_comparison_report.json",
+      "reports/monitoring_report.json"
+    ],
+    "valid": true
+  },
+  "required_file_checks": {
+    "files": [
+      ".dockerignore",
+      ".github/workflows/ci.yml",
+      "Dockerfile",
+      "app/streamlit_app.py",
+      "run_release_validation.py",
+      "src/governance.py",
+      "src/monitoring.py"
+    ],
+    "valid": true
+  },
+  "runtime_seconds": 0.757284,
+  "selected_calibration_method": "uncalibrated",
+  "selected_experiment": "exp_05_random_forest",
+  "source_snapshot_id": "edbd4bd813ed8e1dbaba9e1c",
+  "status": "PASS",
+  "streamlit_import_check": {
+    "server_started": false,
+    "valid": true
+  },
+  "warnings": []
+}
