@@ -1,0 +1,1605 @@
+{
+  "artifacts_reused": true,
+  "automatic_enforcement": false,
+  "categorical_drift": {
+    "industry_history_status": {
+      "accumulation_check_passed": false,
+      "accumulation_check_reasons": [
+        "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+      ],
+      "categories": {
+        "industry_history": {
+          "current": 0.999999000002,
+          "reference": 0.99833233666866
+        },
+        "unseen_industry_fallback": {
+          "current": 9.99998000004e-07,
+          "reference": 0.0016676633313400038
+        }
+      },
+      "expected_temporal_accumulation": false,
+      "feature_semantics": "standard_input",
+      "jensen_shannon_divergence": 0.0005744524200086097,
+      "largest_absolute_share_change": 0.0016666633333400904,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "Raw statistical drift is operationally retained.",
+      "psi": 0.011213811001918875,
+      "raw_statistical_severity": "warning",
+      "severity": "warning",
+      "temporal_shift_reason": null,
+      "unseen_category_count": 0,
+      "unseen_category_row_percentage": 0.0
+    },
+    "insp_scope": {
+      "accumulation_check_passed": false,
+      "accumulation_check_reasons": [
+        "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+      ],
+      "categories": {
+        "A": {
+          "current": 0.14333390333162335,
+          "reference": 0.07833409833103833
+        },
+        "B": {
+          "current": 0.8266651866711067,
+          "reference": 0.8666650666714666
+        },
+        "D": {
+          "current": 0.03000090999727001,
+          "reference": 0.055000834997494995
+        }
+      },
+      "expected_temporal_accumulation": false,
+      "feature_semantics": "standard_input",
+      "jensen_shannon_divergence": 0.006937619353284303,
+      "largest_absolute_share_change": 0.06499980500058503,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "Raw statistical drift is operationally retained.",
+      "psi": 0.05631480709582125,
+      "raw_statistical_severity": "warning",
+      "severity": "warning",
+      "temporal_shift_reason": null,
+      "unseen_category_count": 0,
+      "unseen_category_row_percentage": 0.0
+    },
+    "insp_type": {
+      "accumulation_check_passed": false,
+      "accumulation_check_reasons": [
+        "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+      ],
+      "categories": {
+        "A": {
+          "current": 0.3533311533529532,
+          "reference": 0.36166441168696145
+        },
+        "B": {
+          "current": 0.2033325033408033,
+          "reference": 0.2149990650084149
+        },
+        "C": {
+          "current": 0.07000036999667004,
+          "reference": 0.09000018999829
+        },
+        "F": {
+          "current": 0.026667426659826732,
+          "reference": 0.010000909991810072
+        },
+        "G": {
+          "current": 0.04333394332784339,
+          "reference": 0.06500041499626502
+        },
+        "H": {
+          "current": 0.2599986600120599,
+          "reference": 0.1483329983363483
+        },
+        "I": {
+          "current": 0.013334213325413406,
+          "reference": 0.006667606658206742
+        },
+        "J": {
+          "current": 9.999910000809993e-07,
+          "reference": 0.006667606658206742
+        },
+        "M": {
+          "current": 0.03000072999343006,
+          "reference": 0.09666679666549666
+        }
+      },
+      "expected_temporal_accumulation": false,
+      "feature_semantics": "standard_input",
+      "jensen_shannon_divergence": 0.02362251466965297,
+      "largest_absolute_share_change": 0.1116656616757116,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "Raw statistical drift is operationally retained.",
+      "psi": 0.23036975737745746,
+      "raw_statistical_severity": "warning",
+      "severity": "warning",
+      "temporal_shift_reason": null,
+      "unseen_category_count": 0,
+      "unseen_category_row_percentage": 0.0
+    },
+    "naics_group": {
+      "accumulation_check_passed": false,
+      "accumulation_check_reasons": [
+        "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+      ],
+      "categories": {
+        "11": {
+          "current": 0.02333379665601025,
+          "reference": 0.06333287667716977
+        },
+        "21": {
+          "current": 0.010000769982290408,
+          "reference": 0.02000053998758029
+        },
+        "22": {
+          "current": 0.013334026650720369,
+          "reference": 0.015000654984935347
+        },
+        "23": {
+          "current": 0.209996170088088,
+          "reference": 0.26999479011982724
+        },
+        "31": {
+          "current": 0.04333333666659001,
+          "reference": 0.059999620008739804
+        },
+        "32": {
+          "current": 0.05666636334030985,
+          "reference": 0.04833322166923495
+        },
+        "33": {
+          "current": 0.05666636334030985,
+          "reference": 0.05499973500609487
+        },
+        "42": {
+          "current": 0.06333287667716977,
+          "reference": 0.03500019499551511
+        },
+        "44": {
+          "current": 0.05333310667187989,
+          "reference": 0.06166624834295479
+        },
+        "45": {
+          "current": 0.04000007999816005,
+          "reference": 0.01666728331915033
+        },
+        "48": {
+          "current": 0.03333356666130013,
+          "reference": 0.030000309992870167
+        },
+        "49": {
+          "current": 0.04666659333501997,
+          "reference": 0.030000309992870167
+        },
+        "51": {
+          "current": 0.006667513313860449,
+          "reference": 0.011667398316505389
+        },
+        "53": {
+          "current": 0.02000053998758029,
+          "reference": 0.011667398316505389
+        },
+        "54": {
+          "current": 0.01666728331915033,
+          "reference": 0.010000769982290408
+        },
+        "56": {
+          "current": 0.09999870002989933,
+          "reference": 0.06999939001402969
+        },
+        "61": {
+          "current": 0.013334026650720369,
+          "reference": 0.021667168321795268
+        },
+        "62": {
+          "current": 0.04666659333501997,
+          "reference": 0.03666682332973009
+        },
+        "71": {
+          "current": 0.010000769982290408,
+          "reference": 0.010000769982290408
+        },
+        "72": {
+          "current": 0.06999939001402969,
+          "reference": 0.03500019499551511
+        },
+        "81": {
+          "current": 0.05333310667187989,
+          "reference": 0.044999965000804984
+        },
+        "92": {
+          "current": 0.013334026650720369,
+          "reference": 0.04166670833237503
+        },
+        "99": {
+          "current": 9.99977000528988e-07,
+          "reference": 0.0016676283112155089
+        }
+      },
+      "expected_temporal_accumulation": false,
+      "feature_semantics": "standard_input",
+      "jensen_shannon_divergence": 0.025055252821718547,
+      "largest_absolute_share_change": 0.05999862003173925,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "Raw statistical drift is operationally retained.",
+      "psi": 0.21210891849495703,
+      "raw_statistical_severity": "warning",
+      "severity": "warning",
+      "temporal_shift_reason": null,
+      "unseen_category_count": 0,
+      "unseen_category_row_percentage": 0.0
+    },
+    "owner_type": {
+      "accumulation_check_passed": false,
+      "accumulation_check_reasons": [
+        "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+      ],
+      "categories": {
+        "A": {
+          "current": 0.9233306400107733,
+          "reference": 0.8916641000102666
+        },
+        "B": {
+          "current": 0.02666755999642668,
+          "reference": 0.07666735999722667
+        },
+        "C": {
+          "current": 0.010000959996160014,
+          "reference": 0.023334239996373348
+        },
+        "D": {
+          "current": 0.04000083999664001,
+          "reference": 0.008334299996133348
+        }
+      },
+      "expected_temporal_accumulation": false,
+      "feature_semantics": "standard_input",
+      "jensen_shannon_divergence": 0.013460530200480346,
+      "largest_absolute_share_change": 0.04999980000079998,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "Raw statistical drift is operationally retained.",
+      "psi": 0.11486743050635578,
+      "raw_statistical_severity": "warning",
+      "severity": "warning",
+      "temporal_shift_reason": null,
+      "unseen_category_count": 0,
+      "unseen_category_row_percentage": 0.0
+    },
+    "safety_hlth": {
+      "accumulation_check_passed": false,
+      "accumulation_check_reasons": [
+        "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+      ],
+      "categories": {
+        "H": {
+          "current": 0.14000071999856,
+          "reference": 0.250000499999
+        },
+        "S": {
+          "current": 0.85999928000144,
+          "reference": 0.749999500001
+        }
+      },
+      "expected_temporal_accumulation": false,
+      "feature_semantics": "standard_input",
+      "jensen_shannon_divergence": 0.009742953625838883,
+      "largest_absolute_share_change": 0.10999978000043997,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "Raw statistical drift is operationally retained.",
+      "psi": 0.07883365796851718,
+      "raw_statistical_severity": "warning",
+      "severity": "warning",
+      "temporal_shift_reason": null,
+      "unseen_category_count": 0,
+      "unseen_category_row_percentage": 0.0
+    }
+  },
+  "critical_feature_count": 0,
+  "current_hash": "505b27f15d092f8bad961ac3a9225e5184cc351e67356f6a76186a89991b407a",
+  "current_labels_accessed": false,
+  "current_path": "artifacts\\predictions\\day5b\\e0a880a30016dbc04085\\ranked_candidates.csv",
+  "current_performance_metrics_calculated": false,
+  "current_population": "2023 unlabelled ranked candidate population",
+  "data_quality": {
+    "current": {
+      "column_count": 20,
+      "date_range": {
+        "maximum": "2023-01-23",
+        "minimum": "2023-01-03"
+      },
+      "duplicate_activity_id_count": 0,
+      "missingness": {
+        "industry_history_status": 0.0,
+        "industry_prior_inspection_count": 0.0,
+        "industry_prior_positive_count": 0.0,
+        "industry_prior_positive_rate_smoothed": 0.0,
+        "insp_scope": 0.0,
+        "insp_type": 0.0,
+        "naics_group": 0.0,
+        "nr_in_estab": 0.0,
+        "open_month": 0.0,
+        "owner_type": 0.0,
+        "safety_hlth": 0.0
+      },
+      "numeric_finite": {
+        "industry_prior_inspection_count": true,
+        "industry_prior_positive_count": true,
+        "industry_prior_positive_rate_smoothed": true,
+        "nr_in_estab": true,
+        "open_month": true
+      },
+      "row_count": 300
+    },
+    "schema_differences": {
+      "extra_current_columns": [],
+      "missing_from_current": []
+    },
+    "validation": {
+      "column_count": 13,
+      "date_range": {
+        "maximum": "2022-02-07",
+        "minimum": "2022-01-03"
+      },
+      "duplicate_activity_id_count": 0,
+      "missingness": {
+        "industry_history_status": 0.0,
+        "industry_prior_inspection_count": 0.0,
+        "industry_prior_positive_count": 0.0,
+        "industry_prior_positive_rate_smoothed": 0.0,
+        "insp_scope": 0.0,
+        "insp_type": 0.0,
+        "naics_group": 0.0,
+        "nr_in_estab": 0.0,
+        "open_month": 0.0,
+        "owner_type": 0.0,
+        "safety_hlth": 0.0
+      },
+      "numeric_finite": {
+        "industry_prior_inspection_count": true,
+        "industry_prior_positive_count": true,
+        "industry_prior_positive_rate_smoothed": true,
+        "nr_in_estab": true,
+        "open_month": true
+      },
+      "row_count": 600
+    }
+  },
+  "expected_structural_shift_feature_count": 2,
+  "feature_version": "day2-historical-v1",
+  "future_outcome_template_hash": "7bcbf4e053a8f7c61fb7c9dabb7f5eeecbf1e1c1e8c40b232623c9e88d050b71",
+  "future_outcome_template_path": "artifacts\\monitoring\\day6\\0b1490c5daa560dc0b34\\future_outcome_template.csv",
+  "limitations": [
+    "The 2023 candidate population has no outcomes available to this workflow.",
+    "Drift does not prove predictive performance degradation; score drift is not performance drift.",
+    "Review-exposure differences do not establish unfairness or discrimination.",
+    "Small groups are suppressed; raw scores are uncalibrated; human review is required and no enforcement is automatic.",
+    "Future complete labels are required for out-of-time performance evaluation."
+  ],
+  "model_refit_attempted": false,
+  "monitoring_health": "WARNING",
+  "monitoring_interpretation": "Expected temporal accumulation in cumulative history features is reported separately from unexpected operational drift.",
+  "monitoring_manifest_path": "artifacts\\monitoring\\day6\\0b1490c5daa560dc0b34\\monitoring_manifest.json",
+  "monitoring_run_id": "0b1490c5daa560dc0b34",
+  "numeric_drift": {
+    "industry_prior_inspection_count": {
+      "accumulation_check_passed": true,
+      "accumulation_check_reasons": [
+        "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+      ],
+      "bins": [
+        {
+          "actual_proportion": 0.04000067999456006,
+          "bin": "(-inf, 19.0]",
+          "expected_proportion": 0.11833338666624
+        },
+        {
+          "actual_proportion": 0.28999868001055995,
+          "bin": "(116.0, inf]",
+          "expected_proportion": 0.26999884000927993
+        },
+        {
+          "actual_proportion": 0.12666665333344004,
+          "bin": "(19.0, 41.0]",
+          "expected_proportion": 0.13999988000096
+        },
+        {
+          "actual_proportion": 9.999920000639996e-07,
+          "bin": "(41.0, 46.0]",
+          "expected_proportion": 0.09666689333152001
+        },
+        {
+          "actual_proportion": 0.04333398666144005,
+          "bin": "(46.0, 57.0]",
+          "expected_proportion": 0.10166685333184002
+        },
+        {
+          "actual_proportion": 0.06333382666272006,
+          "bin": "(57.0, 62.0]",
+          "expected_proportion": 0.04833394666176004
+        },
+        {
+          "actual_proportion": 0.13666657333408003,
+          "bin": "(62.0, 81.0]",
+          "expected_proportion": 0.1333332666672
+        },
+        {
+          "actual_proportion": 0.29999860001119993,
+          "bin": "(81.0, 116.0]",
+          "expected_proportion": 0.0916669333312
+        }
+      ],
+      "current_mean": 161.37666666666667,
+      "current_median": 91.0,
+      "current_minimum": 11.0,
+      "current_quantiles": {
+        "0.05": 21.0,
+        "0.5": 91.0,
+        "0.95": 480.0
+      },
+      "data_contract_valid": true,
+      "expected_temporal_accumulation": true,
+      "feature_semantics": "cumulative_history",
+      "ks_statistic": 0.2466666666666667,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "Expected temporal accumulation: valid cumulative counts have higher mean and 95th-percentile exposure in the later population.",
+      "psi": 1.4312303789972223,
+      "raw_statistical_severity": "critical",
+      "reference_mean": 125.23166666666667,
+      "reference_median": 62.0,
+      "reference_minimum": 0.0,
+      "reference_quantiles": {
+        "0.05": 12.0,
+        "0.5": 62.0,
+        "0.95": 318.0
+      },
+      "severity": "warning",
+      "temporal_shift_reason": "Expected temporal accumulation: valid cumulative counts have higher mean and 95th-percentile exposure in the later population.",
+      "values_finite": true,
+      "wasserstein_distance": 56.975
+    },
+    "industry_prior_positive_count": {
+      "accumulation_check_passed": true,
+      "accumulation_check_reasons": [
+        "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+      ],
+      "bins": [
+        {
+          "actual_proportion": 0.08333374999708336,
+          "bin": "(-inf, 5.0]",
+          "expected_proportion": 0.11833350499879833
+        },
+        {
+          "actual_proportion": 0.010000929993490046,
+          "bin": "(10.7, 12.0]",
+          "expected_proportion": 0.125000124999125
+        },
+        {
+          "actual_proportion": 0.3533318600103133,
+          "bin": "(12.0, 22.0]",
+          "expected_proportion": 0.20166625500288163
+        },
+        {
+          "actual_proportion": 0.16999981000133002,
+          "bin": "(22.0, 47.0]",
+          "expected_proportion": 0.10333360999806333
+        },
+        {
+          "actual_proportion": 0.26666580000606666,
+          "bin": "(47.0, inf]",
+          "expected_proportion": 0.26999911000622995
+        },
+        {
+          "actual_proportion": 0.1166668499987167,
+          "bin": "(5.0, 9.0]",
+          "expected_proportion": 0.11166688499847166
+        },
+        {
+          "actual_proportion": 9.999930000489998e-07,
+          "bin": "(9.0, 10.7]",
+          "expected_proportion": 0.07000050999643002
+        }
+      ],
+      "current_mean": 35.82,
+      "current_median": 21.0,
+      "current_minimum": 1.0,
+      "current_quantiles": {
+        "0.05": 4.0,
+        "0.5": 21.0,
+        "0.95": 89.0
+      },
+      "data_contract_valid": true,
+      "expected_temporal_accumulation": true,
+      "feature_semantics": "cumulative_history",
+      "ks_statistic": 0.25666666666666665,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "Expected temporal accumulation: valid cumulative counts have higher mean and 95th-percentile exposure in the later population.",
+      "psi": 1.1536238049957044,
+      "raw_statistical_severity": "critical",
+      "reference_mean": 27.445,
+      "reference_median": 22.0,
+      "reference_minimum": 0.0,
+      "reference_quantiles": {
+        "0.05": 2.0,
+        "0.5": 22.0,
+        "0.95": 60.0
+      },
+      "severity": "warning",
+      "temporal_shift_reason": "Expected temporal accumulation: valid cumulative counts have higher mean and 95th-percentile exposure in the later population.",
+      "values_finite": true,
+      "wasserstein_distance": 10.028333333333332
+    },
+    "industry_prior_positive_rate_smoothed": {
+      "accumulation_check_passed": false,
+      "accumulation_check_reasons": [
+        "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+      ],
+      "bins": [
+        {
+          "actual_proportion": 0.060000519995840045,
+          "bin": "(-inf, 0.177]",
+          "expected_proportion": 0.10000019999840001
+        },
+        {
+          "actual_proportion": 0.3099985200118399,
+          "bin": "(0.177, 0.19]",
+          "expected_proportion": 0.2999986000111999
+        },
+        {
+          "actual_proportion": 0.060000519995840045,
+          "bin": "(0.192, 0.22]",
+          "expected_proportion": 0.12000003999968
+        },
+        {
+          "actual_proportion": 0.21999924000608,
+          "bin": "(0.22, 0.267]",
+          "expected_proportion": 0.08333366666400002
+        },
+        {
+          "actual_proportion": 0.07666705333024004,
+          "bin": "(0.267, 0.283]",
+          "expected_proportion": 0.09833354666496001
+        },
+        {
+          "actual_proportion": 0.07000043999648005,
+          "bin": "(0.283, 0.31]",
+          "expected_proportion": 0.09833354666496001
+        },
+        {
+          "actual_proportion": 0.10333350666528003,
+          "bin": "(0.31, 0.376]",
+          "expected_proportion": 0.13499992000064
+        },
+        {
+          "actual_proportion": 0.10000019999840004,
+          "bin": "(0.376, inf]",
+          "expected_proportion": 0.06500047999616003
+        }
+      ],
+      "current_mean": 0.25053340482564335,
+      "current_median": 0.248123781676,
+      "current_minimum": 0.0879273504274,
+      "current_quantiles": {
+        "0.05": 0.17434086629,
+        "0.5": 0.248123781676,
+        "0.95": 0.419646990741
+      },
+      "data_contract_valid": true,
+      "expected_temporal_accumulation": false,
+      "feature_semantics": "bounded_rate",
+      "ks_statistic": 0.24000000000000005,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "Raw statistical drift is operationally retained.",
+      "psi": 0.23358125842903538,
+      "raw_statistical_severity": "warning",
+      "reference_mean": 0.24947268013208662,
+      "reference_median": 0.2203125,
+      "reference_minimum": 0.114375,
+      "reference_quantiles": {
+        "0.05": 0.1525337837837837,
+        "0.5": 0.2203125,
+        "0.95": 0.3990702479338843
+      },
+      "severity": "warning",
+      "temporal_shift_reason": null,
+      "values_finite": true,
+      "wasserstein_distance": 0.011212539951292734
+    },
+    "nr_in_estab": {
+      "accumulation_check_passed": false,
+      "accumulation_check_reasons": [
+        "current mean decreased",
+        "current 95th percentile decreased"
+      ],
+      "bins": [
+        {
+          "actual_proportion": 0.10666660000066666,
+          "bin": "(-inf, 2.0]",
+          "expected_proportion": 0.10833325000083333
+        },
+        {
+          "actual_proportion": 0.08333349999833334,
+          "bin": "(101.0, 200.0]",
+          "expected_proportion": 0.09166674999916666
+        },
+        {
+          "actual_proportion": 0.10999990000099999,
+          "bin": "(11.0, 20.0]",
+          "expected_proportion": 0.11166655000116664
+        },
+        {
+          "actual_proportion": 0.1899991000089999,
+          "bin": "(2.0, 6.0]",
+          "expected_proportion": 0.10333330000033332
+        },
+        {
+          "actual_proportion": 0.06333369999633337,
+          "bin": "(20.0, 33.0]",
+          "expected_proportion": 0.07833354999783336
+        },
+        {
+          "actual_proportion": 0.10666660000066666,
+          "bin": "(200.0, 700.0]",
+          "expected_proportion": 0.09000009999900001
+        },
+        {
+          "actual_proportion": 0.07333359999733335,
+          "bin": "(33.0, 63.0]",
+          "expected_proportion": 0.1
+        },
+        {
+          "actual_proportion": 0.14666620000466662,
+          "bin": "(6.0, 11.0]",
+          "expected_proportion": 0.1
+        },
+        {
+          "actual_proportion": 0.07666689999766668,
+          "bin": "(63.0, 101.0]",
+          "expected_proportion": 0.11833315000183331
+        },
+        {
+          "actual_proportion": 0.04333389999433339,
+          "bin": "(700.0, inf]",
+          "expected_proportion": 0.09833334999983333
+        }
+      ],
+      "current_mean": 186.68,
+      "current_median": 16.0,
+      "current_minimum": 0.0,
+      "current_quantiles": {
+        "0.05": 1.0,
+        "0.5": 16.0,
+        "0.95": 600.6500000000001
+      },
+      "data_contract_valid": true,
+      "expected_temporal_accumulation": false,
+      "feature_semantics": "standard_input",
+      "ks_statistic": 0.14166666666666666,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "warning",
+      "operational_severity_reason": "current mean decreased; current 95th percentile decreased",
+      "psi": 0.14894402004872964,
+      "raw_statistical_severity": "warning",
+      "reference_mean": 1241.5066666666667,
+      "reference_median": 33.0,
+      "reference_minimum": 0.0,
+      "reference_quantiles": {
+        "0.05": 1.0,
+        "0.5": 33.0,
+        "0.95": 1214.9999999999864
+      },
+      "severity": "warning",
+      "temporal_shift_reason": null,
+      "values_finite": true,
+      "wasserstein_distance": 1054.843333333352
+    },
+    "open_month": {
+      "accumulation_check_passed": false,
+      "accumulation_check_reasons": [
+        "current mean decreased",
+        "current 95th percentile decreased"
+      ],
+      "bins": [
+        {
+          "actual_proportion": 1.0,
+          "bin": "(-inf, inf]",
+          "expected_proportion": 1.0
+        }
+      ],
+      "current_mean": 1.0,
+      "current_median": 1.0,
+      "current_minimum": 1.0,
+      "current_quantiles": {
+        "0.05": 1.0,
+        "0.5": 1.0,
+        "0.95": 1.0
+      },
+      "data_contract_valid": true,
+      "expected_temporal_accumulation": false,
+      "feature_semantics": "standard_input",
+      "ks_statistic": 0.16999999999999993,
+      "missingness_change_pp": 0.0,
+      "operational_severity": "stable",
+      "operational_severity_reason": "current mean decreased; current 95th percentile decreased",
+      "psi": 0.0,
+      "raw_statistical_severity": "stable",
+      "reference_mean": 1.17,
+      "reference_median": 1.0,
+      "reference_minimum": 1.0,
+      "reference_quantiles": {
+        "0.05": 1.0,
+        "0.5": 1.0,
+        "0.95": 2.0
+      },
+      "severity": "stable",
+      "temporal_shift_reason": null,
+      "values_finite": true,
+      "wasserstein_distance": 0.17000000000000004
+    }
+  },
+  "operational_critical_feature_count": 0,
+  "operational_severity_by_feature": {
+    "industry_history_status": "warning",
+    "industry_prior_inspection_count": "warning",
+    "industry_prior_positive_count": "warning",
+    "industry_prior_positive_rate_smoothed": "warning",
+    "insp_scope": "warning",
+    "insp_type": "warning",
+    "naics_group": "warning",
+    "nr_in_estab": "warning",
+    "open_month": "stable",
+    "owner_type": "warning",
+    "raw_risk_score": "warning",
+    "safety_hlth": "warning"
+  },
+  "outcome_fairness_metrics_calculated": false,
+  "overall_health_reasons": [
+    "industry_prior_inspection_count: warning",
+    "industry_prior_positive_count: warning",
+    "industry_prior_positive_rate_smoothed: warning",
+    "insp_type: warning",
+    "raw_risk_score: warning"
+  ],
+  "prediction_artifact_modified": false,
+  "prediction_run_id": "e0a880a30016dbc04085",
+  "primary_reference": "2022 validation feature population (target removed)",
+  "raw_critical_feature_count": 2,
+  "raw_severity_by_feature": {
+    "industry_history_status": "warning",
+    "industry_prior_inspection_count": "critical",
+    "industry_prior_positive_count": "critical",
+    "industry_prior_positive_rate_smoothed": "warning",
+    "insp_scope": "warning",
+    "insp_type": "warning",
+    "naics_group": "warning",
+    "nr_in_estab": "warning",
+    "open_month": "stable",
+    "owner_type": "warning",
+    "raw_risk_score": "warning",
+    "safety_hlth": "warning"
+  },
+  "reference_current_row_counts": {
+    "current": 300,
+    "training": 1200,
+    "validation": 600
+  },
+  "reference_hashes": {
+    "training": "7834a0a0185131e4e3f76c434e3f08df851371601edb561765efbd2d489a307e",
+    "validation": "32b3180369545cb407986d76e14ef6516506a2d3644623d942e4b81b35cf4167"
+  },
+  "reference_paths": {
+    "training": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\features\\day2-historical-v1\\train_features.csv",
+    "validation": "data\\processed\\edbd4bd813ed8e1dbaba9e1c\\features\\day2-historical-v1\\validation_features.csv"
+  },
+  "review_exposure_diagnostics": {
+    "industry_history_status": [
+      {
+        "candidate_share": 1.0,
+        "group": "industry_history",
+        "row_count": 300,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 1.0,
+        "top_10_row_count": 30,
+        "top_10_selection_rate": 0.1,
+        "top_10_tier_share": 1.0,
+        "top_20_row_count": 60,
+        "top_20_selection_rate": 0.2,
+        "top_20_tier_share": 1.0,
+        "top_5_row_count": 15,
+        "top_5_selection_rate": 0.05,
+        "top_5_tier_share": 1.0
+      }
+    ],
+    "insp_scope": [
+      {
+        "candidate_share": 0.14333333333333334,
+        "group": "A",
+        "row_count": 43,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 6.7441860465116275,
+        "top_10_row_count": 29,
+        "top_10_selection_rate": 0.6744186046511628,
+        "top_10_tier_share": 0.9666666666666667,
+        "top_20_row_count": 37,
+        "top_20_selection_rate": 0.8604651162790697,
+        "top_20_tier_share": 0.6166666666666667,
+        "top_5_row_count": 14,
+        "top_5_selection_rate": 0.32558139534883723,
+        "top_5_tier_share": 0.9333333333333333
+      },
+      {
+        "candidate_share": 0.8266666666666667,
+        "group": "B",
+        "row_count": 248,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.04032258064516129,
+        "top_10_row_count": 1,
+        "top_10_selection_rate": 0.004032258064516129,
+        "top_10_tier_share": 0.03333333333333333,
+        "top_20_row_count": 23,
+        "top_20_selection_rate": 0.09274193548387097,
+        "top_20_tier_share": 0.38333333333333336,
+        "top_5_row_count": 1,
+        "top_5_selection_rate": 0.004032258064516129,
+        "top_5_tier_share": 0.06666666666666667
+      },
+      {
+        "candidate_share": 0.03,
+        "group": "D",
+        "row_count": 9,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      }
+    ],
+    "insp_type": [
+      {
+        "candidate_share": 0.35333333333333333,
+        "group": "A",
+        "row_count": 106,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.0,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 22,
+        "top_20_selection_rate": 0.20754716981132076,
+        "top_20_tier_share": 0.36666666666666664,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.20333333333333334,
+        "group": "B",
+        "row_count": 61,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.0,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.07,
+        "group": "C",
+        "row_count": 21,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.0,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 1,
+        "top_20_selection_rate": 0.047619047619047616,
+        "top_20_tier_share": 0.016666666666666666,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.02666666666666667,
+        "group": "F",
+        "row_count": 8,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.043333333333333335,
+        "group": "G",
+        "row_count": 13,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.0,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.26,
+        "group": "H",
+        "row_count": 78,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 3.846153846153846,
+        "top_10_row_count": 30,
+        "top_10_selection_rate": 0.38461538461538464,
+        "top_10_tier_share": 1.0,
+        "top_20_row_count": 37,
+        "top_20_selection_rate": 0.47435897435897434,
+        "top_20_tier_share": 0.6166666666666667,
+        "top_5_row_count": 15,
+        "top_5_selection_rate": 0.19230769230769232,
+        "top_5_tier_share": 1.0
+      },
+      {
+        "candidate_share": 0.013333333333333334,
+        "group": "I",
+        "row_count": 4,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.03,
+        "group": "M",
+        "row_count": 9,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      }
+    ],
+    "naics_group": [
+      {
+        "candidate_share": 0.023333333333333334,
+        "group": "11",
+        "row_count": 7,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 3,
+        "top_20_selection_rate": 0.42857142857142855,
+        "top_20_tier_share": 0.05,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.01,
+        "group": "21",
+        "row_count": 3,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 1,
+        "top_20_selection_rate": 0.3333333333333333,
+        "top_20_tier_share": 0.016666666666666666,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.013333333333333334,
+        "group": "22",
+        "row_count": 4,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 1,
+        "top_20_selection_rate": 0.25,
+        "top_20_tier_share": 0.016666666666666666,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.21,
+        "group": "23",
+        "row_count": 63,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.0,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.043333333333333335,
+        "group": "31",
+        "row_count": 13,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.7692307692307692,
+        "top_10_row_count": 1,
+        "top_10_selection_rate": 0.07692307692307693,
+        "top_10_tier_share": 0.03333333333333333,
+        "top_20_row_count": 2,
+        "top_20_selection_rate": 0.15384615384615385,
+        "top_20_tier_share": 0.03333333333333333,
+        "top_5_row_count": 1,
+        "top_5_selection_rate": 0.07692307692307693,
+        "top_5_tier_share": 0.06666666666666667
+      },
+      {
+        "candidate_share": 0.056666666666666664,
+        "group": "32",
+        "row_count": 17,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.0,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 7,
+        "top_20_selection_rate": 0.4117647058823529,
+        "top_20_tier_share": 0.11666666666666667,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.056666666666666664,
+        "group": "33",
+        "row_count": 17,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.0,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.06333333333333334,
+        "group": "42",
+        "row_count": 19,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 1.5789473684210527,
+        "top_10_row_count": 3,
+        "top_10_selection_rate": 0.15789473684210525,
+        "top_10_tier_share": 0.1,
+        "top_20_row_count": 8,
+        "top_20_selection_rate": 0.42105263157894735,
+        "top_20_tier_share": 0.13333333333333333,
+        "top_5_row_count": 1,
+        "top_5_selection_rate": 0.05263157894736842,
+        "top_5_tier_share": 0.06666666666666667
+      },
+      {
+        "candidate_share": 0.05333333333333334,
+        "group": "44",
+        "row_count": 16,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 3.1249999999999996,
+        "top_10_row_count": 5,
+        "top_10_selection_rate": 0.3125,
+        "top_10_tier_share": 0.16666666666666666,
+        "top_20_row_count": 5,
+        "top_20_selection_rate": 0.3125,
+        "top_20_tier_share": 0.08333333333333333,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.04,
+        "group": "45",
+        "row_count": 12,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 5.0,
+        "top_10_row_count": 6,
+        "top_10_selection_rate": 0.5,
+        "top_10_tier_share": 0.2,
+        "top_20_row_count": 6,
+        "top_20_selection_rate": 0.5,
+        "top_20_tier_share": 0.1,
+        "top_5_row_count": 3,
+        "top_5_selection_rate": 0.25,
+        "top_5_tier_share": 0.2
+      },
+      {
+        "candidate_share": 0.03333333333333333,
+        "group": "48",
+        "row_count": 10,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.0,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 3,
+        "top_20_selection_rate": 0.3,
+        "top_20_tier_share": 0.05,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.04666666666666667,
+        "group": "49",
+        "row_count": 14,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.0,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 2,
+        "top_20_selection_rate": 0.14285714285714285,
+        "top_20_tier_share": 0.03333333333333333,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.006666666666666667,
+        "group": "51",
+        "row_count": 2,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.02,
+        "group": "53",
+        "row_count": 6,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.016666666666666666,
+        "group": "54",
+        "row_count": 5,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 3,
+        "top_20_selection_rate": 0.6,
+        "top_20_tier_share": 0.05,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.1,
+        "group": "56",
+        "row_count": 30,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.3333333333333333,
+        "top_10_row_count": 1,
+        "top_10_selection_rate": 0.03333333333333333,
+        "top_10_tier_share": 0.03333333333333333,
+        "top_20_row_count": 1,
+        "top_20_selection_rate": 0.03333333333333333,
+        "top_20_tier_share": 0.016666666666666666,
+        "top_5_row_count": 1,
+        "top_5_selection_rate": 0.03333333333333333,
+        "top_5_tier_share": 0.06666666666666667
+      },
+      {
+        "candidate_share": 0.013333333333333334,
+        "group": "61",
+        "row_count": 4,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 1,
+        "top_20_selection_rate": 0.25,
+        "top_20_tier_share": 0.016666666666666666,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.04666666666666667,
+        "group": "62",
+        "row_count": 14,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.7142857142857142,
+        "top_10_row_count": 1,
+        "top_10_selection_rate": 0.07142857142857142,
+        "top_10_tier_share": 0.03333333333333333,
+        "top_20_row_count": 3,
+        "top_20_selection_rate": 0.21428571428571427,
+        "top_20_tier_share": 0.05,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.01,
+        "group": "71",
+        "row_count": 3,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 2,
+        "top_10_selection_rate": 0.6666666666666666,
+        "top_10_tier_share": 0.06666666666666667,
+        "top_20_row_count": 2,
+        "top_20_selection_rate": 0.6666666666666666,
+        "top_20_tier_share": 0.03333333333333333,
+        "top_5_row_count": 2,
+        "top_5_selection_rate": 0.6666666666666666,
+        "top_5_tier_share": 0.13333333333333333
+      },
+      {
+        "candidate_share": 0.07,
+        "group": "72",
+        "row_count": 21,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 2.857142857142857,
+        "top_10_row_count": 6,
+        "top_10_selection_rate": 0.2857142857142857,
+        "top_10_tier_share": 0.2,
+        "top_20_row_count": 7,
+        "top_20_selection_rate": 0.3333333333333333,
+        "top_20_tier_share": 0.11666666666666667,
+        "top_5_row_count": 2,
+        "top_5_selection_rate": 0.09523809523809523,
+        "top_5_tier_share": 0.13333333333333333
+      },
+      {
+        "candidate_share": 0.05333333333333334,
+        "group": "81",
+        "row_count": 16,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 2.5,
+        "top_10_row_count": 4,
+        "top_10_selection_rate": 0.25,
+        "top_10_tier_share": 0.13333333333333333,
+        "top_20_row_count": 4,
+        "top_20_selection_rate": 0.25,
+        "top_20_tier_share": 0.06666666666666667,
+        "top_5_row_count": 4,
+        "top_5_selection_rate": 0.25,
+        "top_5_tier_share": 0.26666666666666666
+      },
+      {
+        "candidate_share": 0.013333333333333334,
+        "group": "92",
+        "row_count": 4,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 1,
+        "top_10_selection_rate": 0.25,
+        "top_10_tier_share": 0.03333333333333333,
+        "top_20_row_count": 1,
+        "top_20_selection_rate": 0.25,
+        "top_20_tier_share": 0.016666666666666666,
+        "top_5_row_count": 1,
+        "top_5_selection_rate": 0.25,
+        "top_5_tier_share": 0.06666666666666667
+      }
+    ],
+    "owner_type": [
+      {
+        "candidate_share": 0.9233333333333333,
+        "group": "A",
+        "row_count": 277,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.6498194945848376,
+        "top_10_row_count": 18,
+        "top_10_selection_rate": 0.06498194945848375,
+        "top_10_tier_share": 0.6,
+        "top_20_row_count": 47,
+        "top_20_selection_rate": 0.16967509025270758,
+        "top_20_tier_share": 0.7833333333333333,
+        "top_5_row_count": 3,
+        "top_5_selection_rate": 0.010830324909747292,
+        "top_5_tier_share": 0.2
+      },
+      {
+        "candidate_share": 0.02666666666666667,
+        "group": "B",
+        "row_count": 8,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 1,
+        "top_20_selection_rate": 0.125,
+        "top_20_tier_share": 0.016666666666666666,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.01,
+        "group": "C",
+        "row_count": 3,
+        "suppressed_small_group": true,
+        "top_10_representation_ratio": null,
+        "top_10_row_count": 0,
+        "top_10_selection_rate": 0.0,
+        "top_10_tier_share": 0.0,
+        "top_20_row_count": 0,
+        "top_20_selection_rate": 0.0,
+        "top_20_tier_share": 0.0,
+        "top_5_row_count": 0,
+        "top_5_selection_rate": 0.0,
+        "top_5_tier_share": 0.0
+      },
+      {
+        "candidate_share": 0.04,
+        "group": "D",
+        "row_count": 12,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 10.0,
+        "top_10_row_count": 12,
+        "top_10_selection_rate": 1.0,
+        "top_10_tier_share": 0.4,
+        "top_20_row_count": 12,
+        "top_20_selection_rate": 1.0,
+        "top_20_tier_share": 0.2,
+        "top_5_row_count": 12,
+        "top_5_selection_rate": 1.0,
+        "top_5_tier_share": 0.8
+      }
+    ],
+    "safety_hlth": [
+      {
+        "candidate_share": 0.14,
+        "group": "H",
+        "row_count": 42,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 0.9523809523809523,
+        "top_10_row_count": 4,
+        "top_10_selection_rate": 0.09523809523809523,
+        "top_10_tier_share": 0.13333333333333333,
+        "top_20_row_count": 7,
+        "top_20_selection_rate": 0.16666666666666666,
+        "top_20_tier_share": 0.11666666666666667,
+        "top_5_row_count": 4,
+        "top_5_selection_rate": 0.09523809523809523,
+        "top_5_tier_share": 0.26666666666666666
+      },
+      {
+        "candidate_share": 0.86,
+        "group": "S",
+        "row_count": 258,
+        "suppressed_small_group": false,
+        "top_10_representation_ratio": 1.0077519379844961,
+        "top_10_row_count": 26,
+        "top_10_selection_rate": 0.10077519379844961,
+        "top_10_tier_share": 0.8666666666666667,
+        "top_20_row_count": 53,
+        "top_20_selection_rate": 0.2054263565891473,
+        "top_20_tier_share": 0.8833333333333333,
+        "top_5_row_count": 11,
+        "top_5_selection_rate": 0.04263565891472868,
+        "top_5_tier_share": 0.7333333333333333
+      }
+    ]
+  },
+  "review_worksheet_hash": "321aa44946f3c478a8a40ee2cb83120d50d63f7e0a8fd9b5b3244ccd66b4826c",
+  "review_worksheet_path": "artifacts\\monitoring\\day6\\0b1490c5daa560dc0b34\\review_queue_template.csv",
+  "runtime_seconds": 0.0899,
+  "score_distribution_drift": {
+    "accumulation_check_passed": false,
+    "accumulation_check_reasons": [
+      "mean and 95th percentile are non-decreasing; median is reported but not used as a population-composition gate"
+    ],
+    "bins": [
+      {
+        "actual_proportion": 0.036667299993666726,
+        "bin": "(-inf, 0.141]",
+        "expected_proportion": 0.1
+      },
+      {
+        "actual_proportion": 0.04000059999400006,
+        "bin": "(0.141, 0.155]",
+        "expected_proportion": 0.1
+      },
+      {
+        "actual_proportion": 0.12666640000266666,
+        "bin": "(0.155, 0.174]",
+        "expected_proportion": 0.1
+      },
+      {
+        "actual_proportion": 0.13999960000399997,
+        "bin": "(0.174, 0.206]",
+        "expected_proportion": 0.1
+      },
+      {
+        "actual_proportion": 0.08666679999866668,
+        "bin": "(0.206, 0.228]",
+        "expected_proportion": 0.1
+      },
+      {
+        "actual_proportion": 0.07666689999766668,
+        "bin": "(0.228, 0.251]",
+        "expected_proportion": 0.1
+      },
+      {
+        "actual_proportion": 0.1666660000066666,
+        "bin": "(0.251, 0.286]",
+        "expected_proportion": 0.1
+      },
+      {
+        "actual_proportion": 0.07333359999733335,
+        "bin": "(0.286, 0.312]",
+        "expected_proportion": 0.1
+      },
+      {
+        "actual_proportion": 0.09666669999966666,
+        "bin": "(0.312, 0.351]",
+        "expected_proportion": 0.1
+      },
+      {
+        "actual_proportion": 0.1566661000056666,
+        "bin": "(0.351, inf]",
+        "expected_proportion": 0.1
+      }
+    ],
+    "current_mean": 0.2672960437443497,
+    "current_median": 0.24888931253149998,
+    "current_minimum": 0.0307036284033,
+    "current_quantiles": {
+      "0.05": 0.1452659990721,
+      "0.5": 0.24888931253149998,
+      "0.95": 0.4846080478549
+    },
+    "data_contract_valid": true,
+    "expected_temporal_accumulation": false,
+    "feature_semantics": "model_score",
+    "ks_statistic": 0.14,
+    "missingness_change_pp": 0.0,
+    "operational_severity": "warning",
+    "operational_severity_reason": "Raw statistical drift is operationally retained.",
+    "percentage_above_reference_median": 56.99999999999999,
+    "percentage_above_reference_quantiles": {
+      "0.05": 98.0,
+      "0.5": 56.99999999999999,
+      "0.95": 10.333333333333334
+    },
+    "psi": 0.2142618163587186,
+    "raw_statistical_severity": "warning",
+    "reference_mean": 0.24085927173286356,
+    "reference_median": 0.22773701179480024,
+    "reference_minimum": 0.0262548544177741,
+    "reference_quantiles": {
+      "0.05": 0.12061238124512545,
+      "0.5": 0.22773701179480024,
+      "0.95": 0.4520709327155532
+    },
+    "severity": "warning",
+    "temporal_shift_reason": null,
+    "values_finite": true,
+    "wasserstein_distance": 0.026622196693862007
+  },
+  "secondary_reference": "2020-2021 training feature population (target removed)",
+  "severity_thresholds": {
+    "epsilon": 1e-06,
+    "feature_semantics": {
+      "industry_history_status": "standard_input",
+      "industry_prior_inspection_count": "cumulative_history",
+      "industry_prior_positive_count": "cumulative_history",
+      "industry_prior_positive_rate_smoothed": "bounded_rate",
+      "insp_scope": "standard_input",
+      "insp_type": "standard_input",
+      "naics_group": "standard_input",
+      "nr_in_estab": "standard_input",
+      "open_month": "standard_input",
+      "owner_type": "standard_input",
+      "raw_risk_score": "model_score",
+      "safety_hlth": "standard_input"
+    },
+    "jsd": {
+      "critical": 0.1,
+      "warning": 0.05
+    },
+    "minimum_group_size": 10,
+    "missingness_increase_pp": {
+      "critical": 5.0,
+      "warning": 2.0
+    },
+    "monitoring_version": "day6-monitoring-v1",
+    "numeric_bins": 10,
+    "output_root": "artifacts/monitoring/day6",
+    "psi": {
+      "critical": 0.25,
+      "warning": 0.1
+    },
+    "representation_ratio_critical": 2.0,
+    "representation_ratio_warning": 1.5,
+    "unseen_category_percentage": {
+      "critical": 5.0,
+      "warning": 0.0
+    }
+  },
+  "source_snapshot_id": "edbd4bd813ed8e1dbaba9e1c",
+  "stable_feature_count": 1,
+  "status": "PASS",
+  "suppressed_small_group_count": 15,
+  "top_drifted_features": [
+    "industry_prior_inspection_count",
+    "industry_prior_positive_count",
+    "industry_prior_positive_rate_smoothed",
+    "insp_type",
+    "raw_risk_score"
+  ],
+  "warning_feature_count": 11
+}

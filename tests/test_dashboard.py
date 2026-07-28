@@ -124,7 +124,7 @@ class DashboardTests(unittest.TestCase):
     def test_app_import_and_failure_preserves_report(self):
         import app.streamlit_app as app
         import run_dashboard_validation
-        self.assertIn("Review Queue", app.NAVIGATION); self.assertIn("uncalibrated", app.SCORE_CAVEAT)
+        self.assertIn("Review Queue", app.NAVIGATION); self.assertIn("Monitoring & Governance", app.NAVIGATION); self.assertIn("uncalibrated", app.SCORE_CAVEAT)
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp); reports = root / "reports"; reports.mkdir(); valid = reports / "dashboard_validation_report.json"; valid.write_text('{"status":"PASS","keep":true}', encoding="utf8")
             old = Path.cwd(); os.chdir(root)

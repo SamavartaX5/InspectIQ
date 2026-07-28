@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 
 import pandas as pd
 
@@ -11,7 +12,7 @@ from src.explanations import global_feature_importance, local_perturbation_expla
 
 DISCLAIMER = "This retrospective prototype ranks a supplied candidate batch for human review. It does not automatically initiate enforcement."
 SCORE_CAVEAT = "The score is an uncalibrated model output used for relative ranking. It is not a verified probability that a serious violation will be found."
-NAVIGATION = ["Review Queue", "Candidate Detail", "Model Evidence", "Data & Limitations"]
+NAVIGATION = ["Review Queue", "Candidate Detail", "Model Evidence", "Monitoring & Governance", "Data & Limitations"]
 CHART_LABELS = {
     "highest_priority": "Highest", "high_priority": "High", "elevated_priority": "Elevated",
     "standard_priority": "Standard", "nr_in_estab": "Establishment size",
@@ -84,9 +85,11 @@ def _queue_page(st, context, filtered: pd.DataFrame) -> None:
     type_counts = filtered.groupby("insp_type").size().sort_values(ascending=False).head(12).rename("candidates")
     st.bar_chart(_short_chart_labels(type_counts, "Type "), height=240)
     st.caption("Raw risk-score distribution")
-    st.bar_chart(filtered["raw_risk_score"].value_counts(bins=20, sort=False).rename("candidates"), height=240)
+    score_bins = filtered["raw_risk_score"].value_counts(bins=20, sort=False).rename("candidates")
+    score_bins.index = score_bins.index.astype(str)
+    st.bar_chart(score_bins, height=240)
     table_columns = ["rank", "activity_nr", "open_date", "raw_risk_score", "score_percentile", "review_priority", "naics_group", "insp_type", "insp_scope", "owner_type", "safety_hlth", "nr_in_estab", "industry_prior_inspection_count", "industry_prior_positive_rate_smoothed", "industry_history_status"]
-    st.dataframe(filtered.loc[:, table_columns].rename(columns=_display_columns()), use_container_width=True, hide_index=True, column_config={"Raw risk score": st.column_config.NumberColumn(format="%.4f"), "Score percentile": st.column_config.NumberColumn(format="%.1f")})
+    st.dataframe(filtered.loc[:, table_columns].rename(columns=_display_columns()), width="stretch", hide_index=True, column_config={"Raw risk score": st.column_config.NumberColumn(format="%.4f"), "Score percentile": st.column_config.NumberColumn(format="%.1f")})
     st.download_button("Download filtered review queue", queue_csv(filtered), "inspectiq_filtered_review_queue.csv", "text/csv")
     st.download_button("Download complete ranked queue", queue_csv(context.ranked), "inspectiq_ranked_candidate_queue.csv", "text/csv")
     st.download_button("Download top-10% queue", queue_csv(context.top_10), "inspectiq_top_10_percent_queue.csv", "text/csv")
@@ -98,13 +101,13 @@ def _detail_page(st, context) -> None:
     candidate = context.ranked.loc[context.ranked.rank == selected_rank].iloc[0]
     st.info(SCORE_CAVEAT)
     fields = ["rank", "raw_risk_score", "score_percentile", "review_priority", "open_date", "naics_group", "insp_type", "insp_scope", "owner_type", "safety_hlth", "nr_in_estab", "industry_prior_inspection_count", "industry_prior_positive_count", "industry_prior_positive_rate_smoothed", "industry_history_status"]
-    st.dataframe(pd.DataFrame({"Field": [_display_columns().get(field, field) for field in fields], "Value": [candidate[field] for field in fields]}), hide_index=True, use_container_width=True)
+    st.dataframe(pd.DataFrame({"Field": [_display_columns().get(field, field) for field in fields], "Value": [candidate[field] for field in fields]}), hide_index=True, width="stretch")
     explanation = local_perturbation_explanation(context.model, candidate, training_references(context.training))
     st.markdown("#### Local score influences")
     st.caption(explanation.attrs["caveat"])
     explanation_chart = explanation.set_index("feature")["raw_score_difference"]
     st.bar_chart(_short_chart_labels(explanation_chart), height=360)
-    st.dataframe(explanation.rename(columns={"feature_label": "Feature", "observed_value": "Observed value", "reference_value": "Training reference", "raw_score_difference": "Score difference", "direction": "Local influence"}).loc[:, ["Feature", "Observed value", "Training reference", "Score difference", "Local influence"]], hide_index=True, use_container_width=True)
+    st.dataframe(explanation.rename(columns={"feature_label": "Feature", "observed_value": "Observed value", "reference_value": "Training reference", "raw_score_difference": "Score difference", "direction": "Local influence"}).loc[:, ["Feature", "Observed value", "Training reference", "Score difference", "Local influence"]], hide_index=True, width="stretch")
 
 
 def _evidence_page(st, context) -> None:
@@ -143,6 +146,45 @@ def _limitations_page(st, context) -> None:
         st.write("• " + limitation)
 
 
+def _monitoring_page(st) -> None:
+    """Render saved Day 6 results only; dashboard display never recomputes drift."""
+    st.subheader("Monitoring & Governance")
+    try:
+        report = json.loads(Path("reports/monitoring_report.json").read_text(encoding="utf8"))
+        if report.get("status") != "PASS":
+            raise ValueError("monitoring report is not PASS")
+    except Exception as exc:
+        st.error(f"Monitoring report is unavailable or invalid: {exc}")
+        return
+    cards = st.columns(4)
+    cards[0].metric("Monitoring health", report["monitoring_health"])
+    cards[1].metric("Operational critical", report.get("operational_critical_feature_count", report["critical_feature_count"]))
+    cards[2].metric("Warning features", report["warning_feature_count"])
+    cards[3].metric("Expected temporal shifts", report.get("expected_structural_shift_feature_count", 0))
+    st.caption("Drift and review-exposure diagnostics are operational signals only; they do not measure 2023 predictive performance or outcome fairness.")
+    st.markdown("#### Operational monitoring health")
+    st.write("Top raw-drift features: " + ", ".join(report["top_drifted_features"]))
+    st.write("; ".join(report.get("overall_health_reasons", [])) or "No operational warning.")
+    st.markdown("#### Expected structural or temporal shifts")
+    st.write(report.get("monitoring_interpretation", "Expected temporal accumulation is reported separately from unexpected operational drift."))
+    for reason in report.get("expected_temporal_shift_reasons", []): st.caption(reason)
+    numeric = pd.DataFrame([{"feature": name, "semantics": row.get("feature_semantics", "standard_input"), "PSI": row["psi"], "KS": row["ks_statistic"], "Wasserstein": row["wasserstein_distance"], "raw statistical severity": row.get("raw_statistical_severity", row["severity"]), "operational severity": row.get("operational_severity", row["severity"])} for name, row in report["numeric_drift"].items()])
+    categorical = pd.DataFrame([{"feature": name, "semantics": row.get("feature_semantics", "standard_input"), "PSI": row["psi"], "JSD": row["jensen_shannon_divergence"], "unseen row %": row["unseen_category_row_percentage"], "raw statistical severity": row.get("raw_statistical_severity", row["severity"]), "operational severity": row.get("operational_severity", row["severity"])} for name, row in report["categorical_drift"].items()])
+    st.markdown("#### Raw drift statistics")
+    st.dataframe(numeric, hide_index=True, width="stretch")
+    st.json({"score_distribution_drift": report["score_distribution_drift"], "data_quality": report["data_quality"]})
+    st.markdown("#### Categorical drift and review exposure")
+    st.dataframe(categorical, hide_index=True, width="stretch")
+    st.json({"review_exposure_diagnostics": report["review_exposure_diagnostics"], "suppressed_small_group_count": report["suppressed_small_group_count"]})
+    st.markdown("#### Human review and future evaluation")
+    st.write("Review priority is advisory. A reviewer may record a reason, override model priority, and choose a human workflow decision. No enforcement action is automated.")
+    st.write("Future performance monitoring status: **Awaiting complete outcome labels**.")
+    st.download_button("Download review queue template", Path(report["review_worksheet_path"]).read_bytes(), "inspectiq_review_queue_template.csv", "text/csv")
+    st.download_button("Download future outcome template", Path(report["future_outcome_template_path"]).read_bytes(), "inspectiq_future_outcome_template.csv", "text/csv")
+    for limitation in report["limitations"]:
+        st.caption(limitation)
+
+
 def main() -> None:
     st = _streamlit()
     st.set_page_config(page_title="InspectIQ", page_icon="🔎", layout="wide")
@@ -154,15 +196,17 @@ def main() -> None:
         st.error(f"Dashboard artifact validation failed: {exc}")
         st.stop()
         return
-    st.sidebar.header("Review queue controls")
     page = st.sidebar.radio("Navigate", NAVIGATION)
-    filtered = filter_candidates(context.ranked, _filters(st, context.ranked))
     if page == "Review Queue":
+        st.sidebar.header("Review queue controls")
+        filtered = filter_candidates(context.ranked, _filters(st, context.ranked))
         _queue_page(st, context, filtered)
     elif page == "Candidate Detail":
         _detail_page(st, context)
     elif page == "Model Evidence":
         _evidence_page(st, context)
+    elif page == "Monitoring & Governance":
+        _monitoring_page(st)
     else:
         _limitations_page(st, context)
 
