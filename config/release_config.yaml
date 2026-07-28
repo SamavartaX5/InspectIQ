@@ -1,0 +1,53 @@
+release_validation_version: day7a-release-v1
+required_source_files:
+  - app/streamlit_app.py
+  - src/governance.py
+  - src/monitoring.py
+  - run_release_validation.py
+  - Dockerfile
+  - .dockerignore
+  - .github/workflows/ci.yml
+required_config_files:
+  - config/dashboard_config.yaml
+  - config/monitoring_config.yaml
+  - config/release_config.yaml
+required_committed_reports:
+  - reports/feasibility_report.json
+  - reports/data_foundation_report.json
+  - reports/baseline_report.json
+  - reports/feature_engineering_report.json
+  - reports/model_comparison_report.json
+  - reports/calibration_report.json
+  - reports/mlflow_tracking_report.json
+  - reports/batch_prediction_report.json
+  - reports/dashboard_validation_report.json
+  - reports/monitoring_report.json
+required_local_artifact_categories:
+  - final candidate model
+  - ranked candidate output
+  - top-10-percent candidate output
+  - monitoring manifest and governance worksheets
+required_report_statuses:
+  - PASS
+allowed_monitoring_health_values: [HEALTHY, WARNING, CRITICAL]
+expected_model_experiment: exp_05_random_forest
+expected_selected_calibration_method: uncalibrated
+expected_locked_candidate_row_count: 300
+expected_top_10_row_count: 30
+required_safety_flags:
+  labels_accessed: false
+  performance_metrics_calculated: false
+  outcome_fairness_metrics_calculated: false
+  automatic_enforcement: false
+  model_refit_attempted: false
+  prediction_artifact_modified: false
+docker_runtime_requirements:
+  port: 8501
+  non_root_user: true
+  artifact_mounts: [data, artifacts, reports]
+ci_workflow_requirements:
+  python_version: '3.13'
+  required_tokens: [compileall, unittest, run_release_validation.py --mode ci, docker build]
+prohibited_tracked_file_patterns: ['*.env', 'mlflow.db', 'mlartifacts/**', 'mlruns/**', 'artifacts/**', 'data/raw/**', 'data/interim/**', 'data/processed/**']
+attempt_error_report: reports/release_validation_attempt_error.json
+main_report: reports/release_validation_report.json

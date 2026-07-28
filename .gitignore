@@ -19,3 +19,4 @@ data/processed/
 *.log
 .DS_Store
 Thumbs.db
+reports/release_validation_attempt_error.json
