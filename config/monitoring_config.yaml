@@ -1,0 +1,32 @@
+monitoring_version: day6-monitoring-v1
+output_root: artifacts/monitoring/day6
+numeric_bins: 10
+epsilon: 0.000001
+minimum_group_size: 10
+representation_ratio_warning: 1.5
+representation_ratio_critical: 2.0
+psi:
+  warning: 0.10
+  critical: 0.25
+jsd:
+  warning: 0.05
+  critical: 0.10
+missingness_increase_pp:
+  warning: 2.0
+  critical: 5.0
+unseen_category_percentage:
+  warning: 0.0
+  critical: 5.0
+feature_semantics:
+  naics_group: standard_input
+  insp_type: standard_input
+  insp_scope: standard_input
+  owner_type: standard_input
+  safety_hlth: standard_input
+  industry_history_status: standard_input
+  nr_in_estab: standard_input
+  open_month: standard_input
+  industry_prior_inspection_count: cumulative_history
+  industry_prior_positive_count: cumulative_history
+  industry_prior_positive_rate_smoothed: bounded_rate
+  raw_risk_score: model_score
