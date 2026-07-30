@@ -150,6 +150,53 @@ def _check_report_status(path: Path, report: dict[str, Any]) -> None:
         _require(report["status"] == "PASS", f"Report is not PASS: {path.name}")
 
 
+def _documentation_checks(root: Path, config: dict[str, Any], reports: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Check documentation safety and report-backed headline metrics.
+
+    These are targeted claim/contract checks rather than fragile paragraph
+    comparisons, so authors retain freedom to improve wording.
+    """
+    files = ["README.md", *config.get("required_documentation_files", [])]
+    missing = [name for name in files if not (root / name).is_file()]
+    _require(not missing, f"Required documentation missing: {', '.join(missing)}")
+    content = {name: (root / name).read_text(encoding="utf-8") for name in files}
+    joined = "\n".join(content.values())
+    _require(not re.search(r"[A-Za-z]:\\+Users\\+", joined), "Documentation contains an absolute Windows user path")
+    _require(not re.search(r"(?i)(?:raw_risk_score|score)\s+(?:is|as)\s+(?:a\s+)?calibrated probability", joined), "Documentation describes an uncalibrated score as a calibrated probability")
+    _require(not re.search(r"(?i)2023[^\n.]{0,100}(?:accuracy|precision|recall|pr[- ]auc|roc[- ]auc|brier|performance\s+(?:is|was|=))", joined), "Documentation makes a current 2023 performance claim")
+    _require(not re.search(r"(?i)automatic enforcement\s+(?:is|was|has been)?\s*(?:enabled|active|initiated|performed)", joined), "Documentation claims automatic enforcement")
+    _require(not re.search(r"(?i)(?:api[_ -]?key|password|secret)\s*[:=]\s*[^\s<]{6,}", joined), "Documentation contains a possible secret value")
+    for script in re.findall(r"\b(run_[a-z_]+\.py)\b", joined):
+        _require((root / script).is_file(), f"Documentation references a missing command: {script}")
+    required_language = ("human review", "uncalibrated", "candidate", "no automatic enforcement")
+    _require(all(token in joined.lower() for token in required_language), "Documentation is missing required responsible-use language")
+    by_name = {Path(name).name: value for name, value in reports.items()}
+    foundation = by_name["data_foundation_report.json"]
+    baseline = by_name["baseline_report.json"]
+    model = by_name["model_comparison_report.json"]
+    batch = by_name["batch_prediction_report.json"]
+    metrics = content["docs/project_metrics.md"]
+    selected = next(item for item in model["experiments"] if item["experiment_id"] == "exp_05_random_forest")
+    expected = (
+        f"{foundation['label_counts']['labelled']:,}",
+        f"{foundation['label_counts']['positive']}",
+        f"{foundation['label_counts']['negative']:,}",
+        f"{foundation['label_counts']['positive_rate_percentage']:.2f}%",
+        f"{baseline['validation']['metrics']['ranking_at']['10']['selected_positives']}",
+        f"{selected['metrics']['ranking_at']['10']['selected_positives']}",
+        f"{selected['metrics']['ranking_at']['10']['precision']:.4f}",
+        f"{selected['metrics']['ranking_at']['10']['recall']:.4f}",
+        f"{selected['metrics']['ranking_at']['10']['lift']:.4f}",
+        f"{selected['metrics']['pr_auc']:.4f}",
+        f"{selected['metrics']['roc_auc']:.4f}",
+        f"{selected['metrics']['brier_score']:.4f}",
+        f"{batch['input_row_count']}",
+    )
+    missing_metrics = [value for value in expected if value not in metrics]
+    _require(not missing_metrics, f"Project metrics summary is missing report-backed values: {', '.join(missing_metrics)}")
+    return {"valid": True, "files": files, "report_backed_metric_values": len(expected), "commands_valid": True, "safety_language_valid": True}
+
+
 def _ci_checks(root: Path, config: dict[str, Any]) -> tuple[dict[str, Any], dict[str, dict[str, Any]]]:
     required = sorted(config["required_source_files"])
     missing = [name for name in required if not (root / name).is_file()]
@@ -180,6 +227,7 @@ def _ci_checks(root: Path, config: dict[str, Any]) -> tuple[dict[str, Any], dict
         "streamlit_import": {"valid": True, "server_started": False},
         "safety": _safety_language_checks(root),
         "ignored_artifact_policy": _tracked_file_checks(root, config),
+        "documentation": _documentation_checks(root, config, reports),
     }
     return checks, reports
 
@@ -291,6 +339,7 @@ def validate_release(root: Path | str = ".", mode: str = "ci") -> dict[str, Any]
         "ci_workflow_checks": checks["workflow"],
         "docker_contract_checks": checks["docker"],
         "streamlit_import_check": checks["streamlit_import"],
+        "documentation_checks": checks["documentation"],
         "locked_candidate_safety_checks": local.get("safety_flags", {"not_required": mode == "ci"}),
         "governance_checks": {"human_review_fields_checked": mode == "local", "future_template_headers_only": mode == "local"},
         "monitoring_safety_checks": {"monitoring_artifacts_checked": mode == "local", "health_independent_from_pipeline": mode == "local"},

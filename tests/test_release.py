@@ -12,6 +12,7 @@ import yaml
 
 from src.governance import REVIEW_COLUMNS, future_outcome_template
 from src.release_validation import ReleaseValidationError, validate_release
+from run_release_validation import run_validation
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -34,6 +35,14 @@ class ReleaseValidationTests(unittest.TestCase):
         self._write(temporary, "config/release_config.yaml", yaml.safe_dump(config, sort_keys=False))
         self._write(temporary, "config/dashboard_config.yaml", "dashboard: true\n")
         self._write(temporary, "config/monitoring_config.yaml", "monitoring: true\n")
+        documentation = ["README.md", *config["required_documentation_files"]]
+        for name in documentation:
+            self._write(temporary, name, (PROJECT_ROOT / name).read_text(encoding="utf-8"))
+        documented_scripts = set()
+        for name in documentation:
+            documented_scripts.update(__import__("re").findall(r"\b(run_[a-z_]+\.py)\b", (temporary / name).read_text(encoding="utf-8")))
+        for name in documented_scripts:
+            self._write(temporary, name, "# documented command fixture\n")
         for name in ("app/streamlit_app.py", "src/governance.py", "src/monitoring.py", "src/release_validation.py", "run_release_validation.py"):
             self._write(temporary, name, '"""human review; no outcomes are created."""\n')
         self._write(
@@ -50,6 +59,10 @@ class ReleaseValidationTests(unittest.TestCase):
         names = config["required_committed_reports"]
         reports = {name: {"status": "PASS"} for name in names}
         reports["reports/feasibility_report.json"] = {"decision": "GO"}
+        reports["reports/data_foundation_report.json"] = {"label_counts": {"labelled": 2100, "positive": 552, "negative": 1548, "positive_rate_percentage": 26.29}}
+        reports["reports/baseline_report.json"] = {"status": "PASS", "validation": {"metrics": {"ranking_at": {"10": {"selected_positives": 19}}}}}
+        reports["reports/model_comparison_report.json"] = {"status": "PASS", "experiments": [{"experiment_id": "exp_05_random_forest", "metrics": {"ranking_at": {"10": {"selected_positives": 36, "precision": 0.6, "recall": 0.2338, "lift": 2.3377}}, "pr_auc": 0.5236, "roc_auc": 0.7236, "brier_score": 0.1689}}]}
+        reports["reports/batch_prediction_report.json"] = {"status": "PASS", "input_row_count": 300}
         if local:
             reports.update(self._local_reports(temporary))
         for name, report in reports.items():
@@ -78,10 +91,10 @@ class ReleaseValidationTests(unittest.TestCase):
         shared = {"source_snapshot_id": snapshot, "feature_version": version}
         return {
             "reports/feature_engineering_report.json": {"status": "PASS", **shared},
-            "reports/model_comparison_report.json": {"status": "PASS", **shared, "selected_candidate": {"experiment_name": "exp_05_random_forest"}},
+            "reports/model_comparison_report.json": {"status": "PASS", **shared, "selected_candidate": {"experiment_name": "exp_05_random_forest"}, "experiments": [{"experiment_id": "exp_05_random_forest", "metrics": {"ranking_at": {"10": {"selected_positives": 36, "precision": 0.6, "recall": 0.2338, "lift": 2.3377}}, "pr_auc": 0.5236, "roc_auc": 0.7236, "brier_score": 0.1689}}]},
             "reports/calibration_report.json": {"status": "PASS", **shared, "selected_calibration_method": "uncalibrated", "final_candidate_artifact_path": "artifacts/models/final_candidate.joblib"},
             "reports/mlflow_tracking_report.json": {"status": "PASS", "logged_day3_run_count": 8, "logged_day4_run_count": 3, "final_candidate_artifact_logged": True, "reused_run_count": 11, "newly_created_run_count": 0},
-            "reports/batch_prediction_report.json": {"status": "PASS", **shared, "selected_day3_experiment": "exp_05_random_forest", "selected_day4_method": "uncalibrated", "model_artifact_hash": _digest(model), "ranked_output_path": "artifacts/predictions/ranked.csv", "ranked_output_hash": _digest(ranked), "top_10_output_path": "artifacts/predictions/top.csv", "top_10_output_hash": _digest(top), "labels_accessed": False, "performance_metrics_calculated": False, "automatic_enforcement": False},
+            "reports/batch_prediction_report.json": {"status": "PASS", **shared, "input_row_count": 300, "selected_day3_experiment": "exp_05_random_forest", "selected_day4_method": "uncalibrated", "model_artifact_hash": _digest(model), "ranked_output_path": "artifacts/predictions/ranked.csv", "ranked_output_hash": _digest(ranked), "top_10_output_path": "artifacts/predictions/top.csv", "top_10_output_hash": _digest(top), "labels_accessed": False, "performance_metrics_calculated": False, "automatic_enforcement": False},
             "reports/dashboard_validation_report.json": {"status": "PASS", **shared, "model_refit_attempted": False},
             "reports/monitoring_report.json": {"status": "PASS", **shared, "monitoring_health": "WARNING", "monitoring_manifest_path": "artifacts/monitoring/monitoring_manifest.json", "future_outcome_template_path": "artifacts/monitoring/future_outcome_template.csv", "future_outcome_template_hash": _digest(template), "review_worksheet_path": "artifacts/monitoring/review_queue_template.csv", "review_worksheet_hash": _digest(worksheet), "current_labels_accessed": False, "current_performance_metrics_calculated": False, "outcome_fairness_metrics_calculated": False, "automatic_enforcement": False, "model_refit_attempted": False, "prediction_artifact_modified": False},
         }
@@ -120,6 +133,45 @@ class ReleaseValidationTests(unittest.TestCase):
         (root / ".dockerignore").unlink()
         with self.assertRaisesRegex(ReleaseValidationError, "Required source files missing"):
             validate_release(root, "ci")
+
+    def test_ci_rejects_unsafe_documentation_claims(self) -> None:
+        root = self._fixture()
+        readme = root / "README.md"
+        readme.write_text(readme.read_text(encoding="utf-8") + "\n2023 validation Recall@10%=0.99.\n", encoding="utf-8")
+        with self.assertRaisesRegex(ReleaseValidationError, "2023 performance"):
+            validate_release(root, "ci")
+
+    def test_ci_rejects_calibrated_score_and_absolute_path_language(self) -> None:
+        root = self._fixture()
+        card = root / "docs/model_card.md"
+        card.write_text(card.read_text(encoding="utf-8") + "\nraw_risk_score is a calibrated probability.\n", encoding="utf-8")
+        with self.assertRaisesRegex(ReleaseValidationError, "calibrated probability"):
+            validate_release(root, "ci")
+        card.write_text(card.read_text(encoding="utf-8").replace("raw_risk_score is a calibrated probability.", r"C:\Users\example\secret"), encoding="utf-8")
+        with self.assertRaisesRegex(ReleaseValidationError, "absolute Windows"):
+            validate_release(root, "ci")
+
+    def test_ci_rejects_automatic_enforcement_and_metric_drift(self) -> None:
+        root = self._fixture()
+        governance = root / "docs/governance.md"
+        governance.write_text(governance.read_text(encoding="utf-8") + "\nAutomatic enforcement is enabled.\n", encoding="utf-8")
+        with self.assertRaisesRegex(ReleaseValidationError, "automatic enforcement"):
+            validate_release(root, "ci")
+        governance.write_text(governance.read_text(encoding="utf-8").replace("Automatic enforcement is enabled.", ""), encoding="utf-8")
+        metrics = root / "docs/project_metrics.md"
+        metrics.write_text(metrics.read_text(encoding="utf-8").replace("2,100", "2,101", 1), encoding="utf-8")
+        with self.assertRaisesRegex(ReleaseValidationError, "report-backed values"):
+            validate_release(root, "ci")
+
+    def test_failed_documentation_validation_preserves_valid_report(self) -> None:
+        root = self._fixture()
+        existing = root / "reports/release_validation_report.json"
+        existing.write_text('{"status":"PASS","marker":"previous"}\n', encoding="utf-8")
+        readme = root / "README.md"
+        readme.write_text(readme.read_text(encoding="utf-8") + "\n2023 validation Recall@10%=0.99.\n", encoding="utf-8")
+        self.assertEqual(1, run_validation(root, "ci"))
+        self.assertEqual('{"status":"PASS","marker":"previous"}\n', existing.read_text(encoding="utf-8"))
+        self.assertTrue((root / "reports/release_validation_attempt_error.json").is_file())
 
     def test_local_validates_rows_hashes_and_warning_health(self) -> None:
         root = self._fixture(local=True)
