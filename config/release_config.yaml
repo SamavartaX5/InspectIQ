@@ -1,5 +1,6 @@
 release_validation_version: day7a-release-v1
 required_source_files:
+  - README.md
   - app/streamlit_app.py
   - src/governance.py
   - src/monitoring.py
@@ -7,6 +8,15 @@ required_source_files:
   - Dockerfile
   - .dockerignore
   - .github/workflows/ci.yml
+required_documentation_files:
+  - docs/architecture.md
+  - docs/model_card.md
+  - docs/data_card.md
+  - docs/reproducibility.md
+  - docs/governance.md
+  - docs/interview_walkthrough.md
+  - docs/resume_material.md
+  - docs/project_metrics.md
 required_config_files:
   - config/dashboard_config.yaml
   - config/monitoring_config.yaml
