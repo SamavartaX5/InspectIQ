@@ -27,6 +27,7 @@ from src.feature_engineering import (
     transform_batch,
     write_feature_artifacts,
 )
+from src.path_utils import RelativePathError, resolve_report_path
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -59,9 +60,12 @@ def write_json_atomic(path: Path, value: dict[str, Any]) -> None:
     temporary.replace(path)
 
 
-def load_verified_splits(baseline: dict[str, Any]) -> tuple[Path, dict[str, list[dict[str, Any]]], dict[str, Any]]:
+def load_verified_splits(baseline: dict[str, Any], base_directory: Path) -> tuple[Path, dict[str, list[dict[str, Any]]], dict[str, Any]]:
     artifact = baseline.get("split_artifacts", {})
-    directory = Path(artifact.get("directory", ""))
+    try:
+        directory = resolve_report_path(artifact.get("directory", ""), base_directory)
+    except RelativePathError as error:
+        raise FeatureEngineeringError(str(error)) from error
     manifest_path = directory / "split_manifest.json"
     manifest = read_json(manifest_path)
     if not manifest.get("strictly_ordered") or manifest.get("id_overlap_count") != 0:
@@ -115,7 +119,7 @@ def run_feature_engineering(
     snapshot_id = foundation.get("snapshot_id")
     if not snapshot_id or baseline.get("source_snapshot_id") != snapshot_id:
         raise FeatureEngineeringError("Data-foundation and baseline reports do not identify the same source snapshot.")
-    split_directory, inputs, split_manifest = load_verified_splits(baseline)
+    split_directory, inputs, split_manifest = load_verified_splits(baseline, baseline_report_path.parent.parent)
     all_input_rows = [*inputs["train"], *inputs["validation"], *inputs["test"]]
     key_assessment = inspect_establishment_key(all_input_rows)
     employee = employee_count_assessment(all_input_rows, float(config["employee_count"]["minimum_coverage_percentage"]))

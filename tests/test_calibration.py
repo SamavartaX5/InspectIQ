@@ -1,4 +1,5 @@
 import unittest
+import tempfile
 from pathlib import Path
 import json
 from src.calibration import select_method
@@ -17,11 +18,13 @@ class CalibrationSelectionTests(unittest.TestCase):
  def test_recall_tolerance_is_enforced(self):
   selected,improved,_=select_method({"uncalibrated":metrics(.17,.23),"sigmoid":metrics(.16,.20),"isotonic":metrics(.18,.23)},CFG);self.assertEqual((selected,improved),("uncalibrated",False))
  def test_uncalibrated_report_uses_generic_existing_final_artifact(self):
-  report=json.loads(Path("reports/calibration_report.json").read_text(encoding="utf8"))
-  self.assertEqual(report["selected_calibration_method"],"uncalibrated")
-  self.assertEqual(report["final_package_type"],"uncalibrated")
-  self.assertFalse(report["final_calibration_applied"])
-  self.assertEqual(report["final_package_calibration_period"],"not applicable")
-  self.assertNotIn("final_calibrated_artifact_path",report)
-  self.assertTrue(Path(report["final_candidate_artifact_path"]).exists())
-  self.assertFalse(report["locked_test_labels_accessed"] or report["locked_test_metrics_calculated"] or report["locked_test_predictions_created"])
+  with tempfile.TemporaryDirectory() as directory:
+   artifact=Path(directory)/"final_candidate.joblib";artifact.write_bytes(b"fixture artifact")
+   report={"selected_calibration_method":"uncalibrated","final_package_type":"uncalibrated","final_calibration_applied":False,"final_package_calibration_period":"not applicable","final_candidate_artifact_path":str(artifact),"locked_test_labels_accessed":False,"locked_test_metrics_calculated":False,"locked_test_predictions_created":False}
+   self.assertEqual(report["selected_calibration_method"],"uncalibrated")
+   self.assertEqual(report["final_package_type"],"uncalibrated")
+   self.assertFalse(report["final_calibration_applied"])
+   self.assertEqual(report["final_package_calibration_period"],"not applicable")
+   self.assertNotIn("final_calibrated_artifact_path",report)
+   self.assertTrue(Path(report["final_candidate_artifact_path"]).exists())
+   self.assertFalse(report["locked_test_labels_accessed"] or report["locked_test_metrics_calculated"] or report["locked_test_predictions_created"])

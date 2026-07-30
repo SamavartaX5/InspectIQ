@@ -1,4 +1,5 @@
 import copy
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -6,6 +7,7 @@ from unittest.mock import patch
 
 from run_baseline import run_baseline
 from src.baseline import build_industry_rates, choose_naics_grouping, score_validation_rows
+from src.data_foundation import sha256_file, write_csv
 from src.ranking_metrics import average_precision, ranking_at_fraction, roc_auc, selection_count
 from src.splitting import SplitError, create_chronological_split, write_split_artifacts
 
@@ -93,10 +95,23 @@ class BaselineTests(unittest.TestCase):
 
     def test_offline_smoke_never_reports_locked_test_metrics(self):
         with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            processed = root / "data" / "processed" / "snapshot"
+            rows = [
+                row("1", "2020-01-02", 1), row("2", "2020-02-02", 0),
+                row("3", "2021-01-02", 1), row("4", "2021-02-02", 0),
+                row("5", "2022-01-02", 1), row("6", "2022-02-02", 0),
+                row("7", "2023-01-02", 1), row("8", "2023-02-02", 0),
+            ]
+            labelled = processed / "labelled_inspections.csv"
+            write_csv(labelled, rows, list(rows[0]))
+            report_path = root / "reports" / "data_foundation_report.json"
+            report_path.parent.mkdir()
+            report_path.write_text(json.dumps({"snapshot_id": "fixture", "processed_output": {"path": "data\\processed\\snapshot", "hashes": {"labelled_inspections.csv": sha256_file(labelled)}}}), encoding="utf-8")
             with patch("scripts.dol_api.DOLApiClient.get_records", side_effect=AssertionError("network request attempted")):
                 report = run_baseline(
-                    foundation_report_path=Path("reports/data_foundation_report.json"), schema_path=Path("config/schema.yaml"),
-                    artifact_root=Path(directory),
+                    foundation_report_path=report_path, schema_path=Path("config/schema.yaml"),
+                    artifact_root=root / "baseline",
                 )
         self.assertEqual(report["status"], "PASS")
         self.assertTrue(report["baseline"]["training_only"])

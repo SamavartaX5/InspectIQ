@@ -8,6 +8,7 @@ from typing import Any
 
 from src.baseline import DEFAULT_ALPHA, DEFAULT_MIN_GROUP_SIZE, build_industry_rates, choose_naics_grouping, score_validation_rows
 from src.data_foundation import FoundationError, read_json, sha256_file, write_csv, write_json
+from src.path_utils import RelativePathError, resolve_report_path
 from src.ranking_metrics import validation_metrics
 from src.splitting import SplitError, create_chronological_split, write_split_artifacts
 from src.validation import load_schema, validate_output_columns
@@ -25,9 +26,12 @@ def read_csv(path: Path) -> list[dict[str, Any]]:
         raise BaselineError(f"Could not read labelled snapshot: {error}") from error
 
 
-def verify_processed_snapshot(foundation: dict[str, Any]) -> tuple[Path, list[dict[str, Any]]]:
+def verify_processed_snapshot(foundation: dict[str, Any], base_directory: Path) -> tuple[Path, list[dict[str, Any]]]:
     output = foundation.get("processed_output", {})
-    directory = Path(output.get("path", ""))
+    try:
+        directory = resolve_report_path(output.get("path", ""), base_directory)
+    except RelativePathError as error:
+        raise BaselineError(str(error)) from error
     labelled_path = directory / "labelled_inspections.csv"
     expected = output.get("hashes", {}).get("labelled_inspections.csv")
     if not directory.exists() or not expected or not labelled_path.exists() or sha256_file(labelled_path) != expected:
@@ -41,7 +45,7 @@ def verify_processed_snapshot(foundation: dict[str, Any]) -> tuple[Path, list[di
 def run_baseline(*, foundation_report_path: Path, schema_path: Path, artifact_root: Path | None = None) -> dict[str, Any]:
     foundation = read_json(foundation_report_path)
     schema = load_schema(schema_path)
-    processed_directory, rows = verify_processed_snapshot(foundation)
+    processed_directory, rows = verify_processed_snapshot(foundation, foundation_report_path.parent.parent)
     validate_output_columns(list(rows[0]), schema)
     try:
         split = create_chronological_split(rows)

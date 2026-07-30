@@ -1,6 +1,8 @@
 import tempfile
 import unittest
+import json
 from pathlib import Path
+from unittest.mock import patch
 
 from src.data_foundation import (
     LABEL_MAPPING_VERSION,
@@ -80,14 +82,32 @@ class DataFoundationTests(unittest.TestCase):
     def test_end_to_end_offline_smoke(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            report = run_foundation(
-                report_path=Path("reports/feasibility_report.json"), schema_path=Path("config/schema.yaml"),
-                snapshot_root=root / "raw", processed_root=root / "processed",
-            )
-        self.assertEqual(report["label_counts"]["labelled"], 2100)
-        self.assertEqual(report["label_counts"]["positive"], 552)
-        self.assertEqual(report["label_counts"]["negative"], 1548)
-        self.assertEqual(report["excluded_table_shape"][0], 900)
+            cache = root / "data" / "raw" / "day0_cache" / "audit_fixture"
+            inspections = [
+                self.inspection("1", "2020-01-02T00:00:00") | {"insp_scope": "P", "owner_type": "A", "safety_hlth": "S", "nr_in_estab": "10"},
+                self.inspection("2", "2020-02-02T00:00:00") | {"insp_scope": "P", "owner_type": "A", "safety_hlth": "S", "nr_in_estab": "10"},
+                self.inspection("3", "2021-01-02T00:00:00") | {"insp_scope": "P", "owner_type": "A", "safety_hlth": "S", "nr_in_estab": "10"},
+                self.inspection("4", "2021-02-02T00:00:00") | {"insp_scope": "P", "owner_type": "A", "safety_hlth": "S", "nr_in_estab": "10"},
+                self.inspection("5", "2022-01-02T00:00:00") | {"insp_scope": "P", "owner_type": "A", "safety_hlth": "S", "nr_in_estab": "10"},
+                self.inspection("6", "2022-02-02T00:00:00") | {"insp_scope": "P", "owner_type": "A", "safety_hlth": "S", "nr_in_estab": "10"},
+            ]
+            for year in (2020, 2021, 2022):
+                folder = cache / "inspection" / f"year_{year}"
+                folder.mkdir(parents=True)
+                page_rows = [item for item in inspections if item["open_date"].startswith(str(year))]
+                (folder / "page_0.json").write_text(json.dumps(page_rows), encoding="utf-8")
+                (folder / "manifest.json").write_text(json.dumps({"complete": True, "request": {"endpoint": "inspection", "wanted_rows": len(page_rows)}, "pages": {"0": {"status": "success", "file": "page_0.json", "row_count": len(page_rows)}}}), encoding="utf-8")
+            batch = cache / "violation" / "batch_0001"; batch.mkdir(parents=True)
+            violations = [{"activity_nr": "1", "citation_id": "a", "viol_type": "S", "delete_flag": None}, {"activity_nr": "2", "citation_id": "b", "viol_type": "O", "delete_flag": None}, {"activity_nr": "3", "citation_id": "c", "viol_type": "S", "delete_flag": "X"}, {"activity_nr": "4", "citation_id": "d", "viol_type": "Z", "delete_flag": None}]
+            (batch / "page_0.json").write_text(json.dumps(violations), encoding="utf-8")
+            (batch / "manifest.json").write_text(json.dumps({"complete": True, "request": {"endpoint": "violation", "filters": {"value": ["1", "2", "3", "4", "5"]}}, "pages": {"0": {"status": "success", "file": "page_0.json", "row_count": len(violations)}}}), encoding="utf-8")
+            feasibility = root / "reports" / "feasibility_report.json"; feasibility.parent.mkdir()
+            feasibility.write_text(json.dumps({"configuration": {"state": "CA", "start_date": "2020-01-01", "end_date": "2022-12-31"}, "acquisition": {"cache_directory": "data\\raw\\day0_cache\\audit_fixture"}}), encoding="utf-8")
+            with patch("scripts.dol_api.DOLApiClient.get_records", side_effect=AssertionError("network request attempted")):
+                report = run_foundation(report_path=feasibility, schema_path=Path("config/schema.yaml"), snapshot_root=root / "raw", processed_root=root / "processed")
+        self.assertEqual(report["label_counts"], {"positive": 1, "negative": 3, "labelled": 4, "positive_rate_percentage": 25.0})
+        self.assertEqual(report["excluded_table_shape"][0], 2)
+        self.assertFalse(report["completed_vs_incomplete_retrieval"]["incomplete_outcomes_assumed_negative"])
 
 
 if __name__ == "__main__":

@@ -217,12 +217,26 @@ class HistoricalFeatureTests(unittest.TestCase):
 
     def test_offline_end_to_end_smoke(self):
         with TemporaryDirectory() as directory:
+            root = Path(directory)
+            split_directory = root / "data" / "processed" / "snapshot" / "baseline" / "splits"
+            from src.splitting import create_chronological_split, write_split_artifacts
+            split = create_chronological_split([
+                row("1", "2020-01-01", 0), row("2", "2020-02-01", 1),
+                row("3", "2021-01-01", 0), row("4", "2021-02-01", 1),
+                row("5", "2022-01-01", 0), row("6", "2022-02-01", 1),
+            ])
+            write_split_artifacts(split_directory, split)
+            reports = root / "reports"; reports.mkdir()
+            foundation = reports / "data_foundation_report.json"
+            baseline = reports / "baseline_report.json"
+            foundation.write_text(json.dumps({"snapshot_id": "fixture"}), encoding="utf-8")
+            baseline.write_text(json.dumps({"source_snapshot_id": "fixture", "split_artifacts": {"directory": "data\\processed\\snapshot\\baseline\\splits"}}), encoding="utf-8")
             report = run_feature_engineering(
-                foundation_report_path=Path("reports/data_foundation_report.json"), baseline_report_path=Path("reports/baseline_report.json"),
-                config_path=Path("config/feature_config.yaml"), artifact_root=Path(directory) / "features",
+                foundation_report_path=foundation, baseline_report_path=baseline,
+                config_path=Path("config/feature_config.yaml"), artifact_root=root / "features",
             )
         self.assertEqual(report["status"], "PASS")
-        self.assertEqual(report["splits"]["train"]["output_row_count"], 1200)
+        self.assertEqual(report["splits"]["train"]["output_row_count"], 2)
         self.assertFalse(report["splits"]["test_locked"]["target_present"])
 
 
