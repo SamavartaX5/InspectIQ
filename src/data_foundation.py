@@ -13,6 +13,7 @@ from typing import Any
 
 from run_feasibility import NON_POSITIVE_TYPES, POSITIVE_TYPES, build_label_table
 from src.validation import ValidationError, load_schema, missing_percentages, validate_inspections, validate_output_columns
+from src.path_utils import RelativePathError, resolve_report_path
 
 
 LABEL_MAPPING_VERSION = "day0-viol-type-v1"
@@ -248,7 +249,11 @@ def run_foundation(
     if not required_config.issubset(configuration) or not cache_directory:
         raise FoundationError("Day 0 feasibility report does not identify a usable cache configuration.")
     schema = load_schema(schema_path)
-    inspections, violations, completed_ids, sources = load_day0_cache(Path(cache_directory), configuration)
+    try:
+        cache_root = resolve_report_path(cache_directory, report_path.parent.parent)
+    except RelativePathError as error:
+        raise FoundationError(str(error)) from error
+    inspections, violations, completed_ids, sources = load_day0_cache(cache_root, configuration)
     inspection_ids = [str(row["activity_nr"]) for row in inspections if row.get("activity_nr") is not None]
     snapshot_id = stable_snapshot_id(configuration, inspection_ids, list(completed_ids))
     raw_directory, raw_manifest, raw_reused = create_raw_snapshot(

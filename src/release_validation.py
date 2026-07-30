@@ -19,6 +19,8 @@ from typing import Any
 
 import yaml
 
+from src.path_utils import RelativePathError, resolve_report_path
+
 
 class ReleaseValidationError(RuntimeError):
     """A release contract check failed."""
@@ -67,9 +69,10 @@ def _require(condition: bool, message: str) -> None:
 
 def _path_from_report(root: Path, value: Any, field: str) -> Path:
     _require(isinstance(value, str) and value, f"Missing report path: {field}")
-    path = Path(value.replace("\\", "/"))
-    _require(not path.is_absolute(), f"Absolute artifact path is not permitted: {field}")
-    return root / path
+    try:
+        return resolve_report_path(value, root)
+    except RelativePathError as error:
+        raise ReleaseValidationError(f"Invalid artifact path for {field}: {error}") from error
 
 
 def _workflow_checks(root: Path) -> dict[str, bool]:
