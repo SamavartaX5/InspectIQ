@@ -1,0 +1,30 @@
+FROM python:3.13-slim
+
+LABEL org.opencontainers.image.title="InspectIQ public demo" \
+      org.opencontainers.image.description="Advisory-only Streamlit candidate-ranking demo" \
+      org.opencontainers.image.version="v1.0.1"
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app \
+    INSPECTIQ_RUNTIME_ROOT=/app
+
+WORKDIR /app
+
+COPY requirements-runtime.txt ./
+RUN pip install --no-cache-dir -r requirements-runtime.txt
+COPY app ./app
+COPY src ./src
+COPY config ./config
+COPY reports ./reports
+COPY run_deployment_validation.py ./
+COPY deploy_bundle/ ./
+
+RUN useradd --create-home --uid 10001 appuser \
+    && test -f /app/deployment_manifest.json \
+    && chown -R appuser:appuser /app
+USER appuser
+
+EXPOSE 8501
+
+CMD ["sh", "-c", "python -c 'from src.deployment_bundle import validate_bundle; validate_bundle()' && exec python -m streamlit run app/streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} --server.headless=true"]

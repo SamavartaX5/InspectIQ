@@ -143,16 +143,59 @@ class DashboardTests(unittest.TestCase):
         class FakeSt:
             column_config = FakeColumnConfig()
             def __init__(self): self.sidebar = self; self.session_state = {}
+            def __enter__(self): return self
+            def __exit__(self, *_args): return False
             def button(self, *_args, **_kwargs): return False
             def multiselect(self, *_args, **_kwargs): return []
             def slider(self, _label, **kwargs): return kwargs["value"]
             def radio(self, *_args, **_kwargs): return "Review Queue"
             def columns(self, count): return [self] * count
+            def cache_data(self, **_kwargs): return lambda function: function
+            def cache_resource(self, **_kwargs): return lambda function: function
             def __getattr__(self, _name): return lambda *_args, **_kwargs: None
         with tempfile.TemporaryDirectory() as temp:
             config, _ranked, _candidate = self.fixture(Path(temp)); context = load_dashboard_context(config)
             with patch("app.streamlit_app._streamlit", return_value=FakeSt()), patch("app.streamlit_app.load_dashboard_context", return_value=context):
                 app.main()
+
+    def test_candidate_detail_uses_rank_column_not_dataframe_rank_method(self):
+        import app.streamlit_app as app
+        class FakeSt:
+            def __init__(self): self.options = None
+            def __enter__(self): return self
+            def __exit__(self, *_args): return False
+            def selectbox(self, _label, options, **_kwargs): self.options = options; return options[0]
+            def columns(self, count): return [self] * count
+            def __getattr__(self, _name): return lambda *_args, **_kwargs: None
+        with tempfile.TemporaryDirectory() as temp:
+            config, _ranked, _candidate = self.fixture(Path(temp)); context = load_dashboard_context(config); st = FakeSt()
+            app._detail_page(st, context)
+        self.assertEqual(st.options, [1, 2, 3, 4])
+
+    def test_review_budget_filter_and_navigation_helpers_preserve_frozen_values(self):
+        import app.streamlit_app as app
+        frame = pd.DataFrame({"rank": list(range(1, 301)), "raw_risk_score": [number / 300 for number in range(1, 301)], "review_priority": ["standard_priority"] * 300, "naics_group": ["23"] * 300, "insp_type": ["A"] * 300, "insp_scope": ["A"] * 300, "owner_type": ["P"] * 300, "safety_hlth": ["S"] * 300})
+        self.assertEqual([len(app.budget_queue(frame, value)) for value in ("5%", "10%", "20%")], [15, 30, 60])
+        filtered = filter_candidates(frame, {"naics_group": "23", "raw_risk_score": (0.2, 0.8)})
+        self.assertEqual(filtered["rank"].tolist(), frame.loc[frame["raw_risk_score"].between(.2, .8), "rank"].tolist())
+        self.assertEqual(app.adjacent_rank([1, 2, 3], 1, -1), 1)
+        self.assertEqual(app.adjacent_rank([1, 2, 3], 2, 1), 3)
+        self.assertEqual(app.active_filter_count({"naics_group": ["23"]}, frame), 1)
+
+    def test_public_ui_contract_is_safe_and_theme_is_local(self):
+        import app.streamlit_app as app
+        import tomllib
+        source = Path("app/streamlit_app.py").read_text(encoding="utf8")
+        theme = tomllib.loads(Path(".streamlit/config.toml").read_text(encoding="utf8"))
+        css = Path("src/ui_theme.py").read_text(encoding="utf8").lower()
+        self.assertEqual(app.NAVIGATION, ["Review Queue", "Candidate Detail", "Model Evidence", "Monitoring & Governance", "Data & Limitations"])
+        self.assertIn("uncalibrated advisory score", app.SCORE_CAVEAT)
+        self.assertIn("No automatic enforcement", source)
+        self.assertNotIn("use_container_width", source)
+        self.assertNotIn("requests.", source)
+        self.assertNotIn("<script", css)
+        self.assertNotIn("fonts.googleapis", css)
+        self.assertEqual(theme["theme"]["base"], "dark")
 
 
 def yaml_path(config, key):

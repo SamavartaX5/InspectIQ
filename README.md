@@ -119,6 +119,18 @@ docker compose up
 
 The Docker image contains code, configuration, and committed reports only. `docker-compose.yml` mounts locally generated `data`, `artifacts`, and `reports` read-only. Those inputs must exist locally; the container will not download or regenerate them.
 
+### Preparing the public-demo image
+
+The public-demo package is prepared locally from frozen runtime artifacts; it does not publish an image or provide a public URL.
+
+```powershell
+python scripts/build_deployment_bundle.py
+python run_deployment_validation.py
+docker build -f Dockerfile.deploy -t inspectiq-demo:v1.0.1 .
+```
+
+`deploy_bundle/` is ignored. It contains only the candidate queue, its manifests, the final model needed for explanations, aggregate target-free training references, monitoring review data, and dashboard reports. It excludes labels, outcomes, raw caches, MLflow state, reviewer data, and secrets.
+
 ## CI behaviour and ignored artifacts
 
 GitHub Actions installs dependencies, checks whitespace, compiles code, runs tests, executes CI-safe release validation, and builds the image without starting the dashboard. Raw data, processed data, model artifacts, predictions, MLflow state, and monitoring artifacts are intentionally ignored: they may be private, large, and reproducible from controlled local inputs. They are not silently committed.
