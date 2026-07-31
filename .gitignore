@@ -20,3 +20,5 @@ data/processed/
 .DS_Store
 Thumbs.db
 reports/release_validation_attempt_error.json
+deploy_bundle/
+reports/deployment_validation_attempt_error.json

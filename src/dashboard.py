@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import time
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -16,6 +17,7 @@ import yaml
 
 from src.batch_prediction import OUTPUT_COLUMNS, PROHIBITED_COLUMNS, TARGET
 from src.explanations import global_feature_importance, local_perturbation_explanation, training_references
+from src.path_utils import RelativePathError, resolve_report_path
 
 
 class DashboardError(RuntimeError):
@@ -34,7 +36,16 @@ def read_json(path: Path) -> dict[str, Any]:
 
 
 def resolve(value: str | Path) -> Path:
-    return Path(value)
+    # Dashboard tests and explicit local operators may provide a trusted
+    # temporary absolute config/artifact path. Report-derived paths remain
+    # relative in production bundles and are resolved strictly below runtime.
+    direct = Path(value)
+    if direct.is_absolute():
+        return direct
+    try:
+        return resolve_report_path(value, Path(os.environ.get("INSPECTIQ_RUNTIME_ROOT", ".")))
+    except RelativePathError as exc:
+        raise DashboardError(str(exc)) from exc
 
 
 def read_config(path: Path) -> dict[str, Any]:
@@ -54,12 +65,14 @@ class DashboardContext:
     comparison: dict[str, Any]
     calibration: dict[str, Any]
     mlflow: dict[str, Any]
+    monitoring: dict[str, Any]
     prediction_manifest: dict[str, Any]
     feature_report: dict[str, Any]
     feature_manifest: dict[str, Any]
     ranked: pd.DataFrame
     top_10: pd.DataFrame
-    training: pd.DataFrame
+    training: pd.DataFrame | None
+    training_references: dict[str, Any]
     model: Any
 
 
@@ -80,10 +93,14 @@ def load_dashboard_context(config_path: Path = Path("config/dashboard_config.yam
         comparison = read_json(resolve(reports["model_comparison"]))
         calibration = read_json(resolve(reports["calibration"]))
         mlflow = read_json(resolve(reports["mlflow_tracking"]))
+        monitoring_path = reports.get("monitoring")
+        monitoring = read_json(resolve(monitoring_path)) if monitoring_path else {}
     except KeyError as exc:
         raise DashboardError("Dashboard configuration lacks a required report path.") from exc
     for name, report in (("Batch prediction", batch), ("Model comparison", comparison), ("Calibration", calibration), ("MLflow tracking", mlflow)):
         _require_pass(name, report)
+    if monitoring:
+        _require_pass("Monitoring", monitoring)
     snapshot, version = batch.get("source_snapshot_id"), batch.get("feature_version")
     if not snapshot or any((report.get("source_snapshot_id"), report.get("feature_version")) != (snapshot, version) for report in (comparison, calibration)):
         raise DashboardError("Dashboard reports have incompatible snapshot or feature versions.")
@@ -95,6 +112,10 @@ def load_dashboard_context(config_path: Path = Path("config/dashboard_config.yam
         raise DashboardError("MLflow tracking report violates locked-candidate safeguards.")
     if any(calibration.get(key) for key in ("locked_test_labels_accessed", "locked_test_metrics_calculated", "locked_test_predictions_created")):
         raise DashboardError("Calibration report violates locked-candidate safeguards.")
+    if monitoring and any(monitoring.get(key) for key in ("current_labels_accessed", "current_performance_metrics_calculated", "outcome_fairness_metrics_calculated", "automatic_enforcement")):
+        raise DashboardError("Monitoring report violates candidate-only dashboard safeguards.")
+    if monitoring and (monitoring.get("source_snapshot_id"), monitoring.get("feature_version")) != (snapshot, version):
+        raise DashboardError("Monitoring report is incompatible with the prediction batch.")
     ranked_path, top_path = resolve(batch.get("ranked_output_path", "")), resolve(batch.get("top_10_output_path", ""))
     manifest_path = ranked_path.parent / "prediction_manifest.json"
     if not ranked_path.is_file() or not top_path.is_file() or not manifest_path.is_file():
@@ -135,20 +156,29 @@ def load_dashboard_context(config_path: Path = Path("config/dashboard_config.yam
     if feature_report.get("splits", {}).get("test_locked", {}).get("target_present") is not False:
         raise DashboardError("Feature report does not confirm the locked candidate target is absent.")
     output_paths = feature_report.get("output_paths", {})
-    training_path, feature_manifest_path = resolve(output_paths.get("train", "")), resolve(output_paths.get("manifest", ""))
-    if not training_path.is_file() or not feature_manifest_path.is_file():
-        raise DashboardError("Training feature artifact or manifest is missing.")
-    feature_manifest = read_json(feature_manifest_path)
-    if feature_manifest.get("file_hashes", {}).get(training_path.name) != digest(training_path):
-        raise DashboardError("Training feature artifact hash does not match its manifest.")
-    training = pd.read_csv(training_path)
+    reference_path = feature_report.get("deployment_training_references_path")
+    if reference_path:
+        reference_file = resolve(reference_path)
+        if not reference_file.is_file() or digest(reference_file) != feature_report.get("deployment_training_references_hash"):
+            raise DashboardError("Deployment training-reference artifact is missing or invalid.")
+        references = read_json(reference_file)
+        training = None
+    else:
+        training_path, feature_manifest_path = resolve(output_paths.get("train", "")), resolve(output_paths.get("manifest", ""))
+        if not training_path.is_file() or not feature_manifest_path.is_file():
+            raise DashboardError("Training feature artifact or manifest is missing.")
+        feature_manifest = read_json(feature_manifest_path)
+        if feature_manifest.get("file_hashes", {}).get(training_path.name) != digest(training_path):
+            raise DashboardError("Training feature artifact hash does not match its manifest.")
+        training = pd.read_csv(training_path)
+        references = training_references(training)
     model_path = resolve(batch.get("model_artifact_path", ""))
     if not model_path.is_file() or digest(model_path) != batch.get("model_artifact_hash") or model_path != resolve(calibration.get("final_candidate_artifact_path", "")):
         raise DashboardError("Final candidate model path or hash is inconsistent.")
     model = joblib.load(model_path)
     if not callable(getattr(model, "predict_proba", None)):
         raise DashboardError("Final candidate model cannot perform predict_proba.")
-    return DashboardContext(config, batch, comparison, calibration, mlflow, prediction_manifest, feature_report, feature_manifest, ranked, top_10, training, model)
+    return DashboardContext(config, batch, comparison, calibration, mlflow, monitoring, prediction_manifest, feature_report, feature_manifest if not reference_path else {}, ranked, top_10, training, references, model)
 
 
 def filter_candidates(frame: pd.DataFrame, filters: dict[str, Any] | None = None) -> pd.DataFrame:
@@ -174,8 +204,7 @@ def queue_csv(frame: pd.DataFrame) -> bytes:
 
 
 def validation_report(context: DashboardContext, runtime: float) -> dict[str, Any]:
-    references = training_references(context.training)
-    explanation = local_perturbation_explanation(context.model, context.ranked.iloc[0], references)
+    explanation = local_perturbation_explanation(context.model, context.ranked.iloc[0], context.training_references)
     importance = global_feature_importance(context.model)
     queue_csv(context.ranked); queue_csv(context.top_10); queue_csv(filter_candidates(context.ranked, {"review_priority": "highest_priority"}))
     return {

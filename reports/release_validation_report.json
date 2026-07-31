@@ -110,7 +110,7 @@
     "monitoring_artifacts_checked": true
   },
   "platform": "Windows",
-  "python_version": "3.13.14",
+  "python_version": "3.13.12",
   "release_validation_version": "day7a-release-v1",
   "report_checks": {
     "files": [
@@ -140,7 +140,7 @@
     ],
     "valid": true
   },
-  "runtime_seconds": 0.826618,
+  "runtime_seconds": 0.879425,
   "selected_calibration_method": "uncalibrated",
   "selected_experiment": "exp_05_random_forest",
   "source_snapshot_id": "edbd4bd813ed8e1dbaba9e1c",

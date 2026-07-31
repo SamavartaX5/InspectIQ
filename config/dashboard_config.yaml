@@ -7,3 +7,4 @@ reports:
   calibration: reports/calibration_report.json
   mlflow_tracking: reports/mlflow_tracking_report.json
   feature_engineering: reports/feature_engineering_report.json
+  monitoring: reports/monitoring_report.json

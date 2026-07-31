@@ -1,0 +1,12 @@
+deployment_bundle_version: day7b-public-demo-v1
+source_release_version: v1.0.1
+bundle_directory: deploy_bundle
+reports:
+  - reports/batch_prediction_report.json
+  - reports/model_comparison_report.json
+  - reports/calibration_report.json
+  - reports/mlflow_tracking_report.json
+  - reports/feature_engineering_report.json
+  - reports/monitoring_report.json
+allowed_monitoring_health_values: [HEALTHY, WARNING, CRITICAL]
+prohibited_columns: [serious_violation_found, label, target, outcome, viol_type, citation_id, delete_flag]

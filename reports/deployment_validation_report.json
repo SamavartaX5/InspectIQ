@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "bundle_files": 13,
+  "bundle_size_bytes": 1263884,
+  "candidate_rows": 300,
+  "model_included": true,
+  "prediction_hash_valid": true,
+  "monitoring_hash_valid": true,
+  "prohibited_fields_found": false,
+  "labels_included": false,
+  "external_startup_dependency": false,
+  "automatic_enforcement": false
+}
