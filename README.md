@@ -1,5 +1,18 @@
 # InspectIQ
 
+## ?? Live Demo
+
+[**Launch the public InspectIQ dashboard**](https://inspectiq-demo-production.up.railway.app)
+
+InspectIQ is a retrospective, advisory-only workplace-safety inspection risk-triage prototype. The deployed application ranks a fixed 2023 candidate batch for human review. It does not automate enforcement, and its scores are uncalibrated model outputs.
+
+- **Candidates:** 300 unlabelled 2023 inspection candidates
+- **Model:** Random Forest
+- **Use:** Human-review prioritisation only
+- **Container:** `ghcr.io/samavartax5/inspectiq-demo:v1.1.0`
+- **Deployment:** Railway
+
+
 InspectIQ is a reproducible, advisory decision-support project that ranks a supplied OSHA inspection candidate batch for human review using historically validated, leakage-safe features.
 
 ## Problem and decision-support framing
