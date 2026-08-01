@@ -1,6 +1,6 @@
 # InspectIQ
 
-## ?? Live Demo
+## Live Demo
 
 [**Launch the public InspectIQ dashboard**](https://inspectiq-demo-production.up.railway.app)
 
