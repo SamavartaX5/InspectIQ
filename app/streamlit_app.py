@@ -2,11 +2,12 @@
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 
 import pandas as pd
 
-from src.dashboard import DashboardError, filter_candidates, load_dashboard_context, queue_csv
+from src.dashboard import DashboardError, filter_candidates, load_dashboard_context, public_demo_version, queue_csv
 from src.explanations import global_feature_importance, local_perturbation_explanation
 from src.path_utils import resolve_report_path
 from src.ui_components import (
@@ -36,6 +37,22 @@ CHART_LABELS = {
     "industry_prior_positive_rate_smoothed": "Smoothed prior rate",
     "industry_history_status": "Industry history status",
 }
+CHART_BACKGROUND = "#111B2B"
+CHART_AXIS = "#C6D4E5"
+CHART_GRID = "#2A3C56"
+CHART_STROKE = "#D6E9FA"
+CHART_COLORS = {
+    "queue_priority": "#38BDF8",
+    "naics_mix": "#34D399",
+    "score_distribution": "#60A5FA",
+    "inspection_type": "#FBBF24",
+    "candidate_evidence": "#A78BFA",
+    "model_evidence": "#34D399",
+    "importance": "#38BDF8",
+    "monitoring_drift": "#FBBF24",
+    "monitoring_severity": "#A78BFA",
+}
+HEX_COLOR = re.compile(r"^#[0-9A-Fa-f]{6}$")
 
 
 def _streamlit():
@@ -70,7 +87,7 @@ def budget_queue(frame: pd.DataFrame, budget: str) -> pd.DataFrame:
     """Return a deterministic rank-prefix for a review budget without changing ranks."""
     if budget not in BUDGETS:
         raise ValueError(f"Unsupported review budget: {budget}")
-    count = len(frame) if BUDGETS[budget] == 1.0 else int(round(len(frame) * BUDGETS[budget]))
+    count = len(frame) if BUDGETS[budget] == 1.0 else min(len(frame), max(1, int(round(len(frame) * BUDGETS[budget]))))
     return frame.loc[frame["rank"] <= count].copy()
 
 
@@ -111,28 +128,65 @@ def _filters(st, ranked: pd.DataFrame) -> dict:
     return choices
 
 
-def _altair_chart(st, frame: pd.DataFrame, *, category: str, measure: str, title: str, color: str = "#4FC3F7", height: int = 270) -> None:
-    """Use explicit nominal/quantitative encodings; native fallback keeps the demo usable."""
-    try:
-        import altair as alt
-    except ImportError:
-        st.bar_chart(frame.set_index(category)[measure], height=height)
-        return
-    chart = alt.Chart(frame).mark_bar(color=color, cornerRadiusTopLeft=3, cornerRadiusTopRight=3).encode(
+def _valid_hex_color(color: str) -> bool:
+    return bool(HEX_COLOR.fullmatch(color))
+
+
+def _build_bar_chart(frame: pd.DataFrame, *, category: str, measure: str, title: str, color: str, height: int):
+    """Create a dark-theme-safe bar chart with an explicit visible mark contract."""
+    if frame.empty:
+        raise ValueError("Altair bar charts require non-empty data.")
+    if not _valid_hex_color(color):
+        raise ValueError(f"Altair mark color must be a six-digit hexadecimal value: {color}")
+    import altair as alt
+    return alt.Chart(frame).mark_bar(
+        color=color,
+        fill=color,
+        opacity=0.92,
+        stroke=CHART_STROKE,
+        strokeWidth=0.6,
+        cornerRadiusTopLeft=3,
+        cornerRadiusTopRight=3,
+    ).encode(
         x=alt.X(f"{category}:N", sort="-y", title=None, axis=alt.Axis(labelAngle=-30, labelLimit=150)),
         y=alt.Y(f"{measure}:Q", title=title),
         tooltip=[alt.Tooltip(f"{category}:N", title=category.replace("_", " ").title()), alt.Tooltip(f"{measure}:Q", title=title, format=",.3f")],
-    ).properties(height=height).interactive()
+    ).properties(height=height).configure(
+        background=CHART_BACKGROUND,
+        axis=alt.AxisConfig(labelColor=CHART_AXIS, titleColor=CHART_AXIS, domainColor=CHART_GRID, tickColor=CHART_GRID, gridColor=CHART_GRID),
+        view=alt.ViewConfig(fill=CHART_BACKGROUND, stroke=CHART_GRID),
+    ).interactive()
+
+
+def _altair_chart(st, frame: pd.DataFrame, *, category: str, measure: str, title: str, color: str = CHART_COLORS["queue_priority"], height: int = 270) -> None:
+    """Render a visible Altair bar chart; native fallback remains available."""
+    try:
+        chart = _build_bar_chart(frame, category=category, measure=measure, title=title, color=color, height=height)
+    except ImportError:
+        st.bar_chart(frame.set_index(category)[measure], height=height)
+        return
     st.altair_chart(chart, width="stretch")
 
 
-def _score_distribution(st, frame: pd.DataFrame) -> None:
+def _score_distribution_frame(frame: pd.DataFrame) -> pd.DataFrame:
     if frame.empty:
-        return
+        return pd.DataFrame(columns=["score band", "candidate count"])
     score_bins = frame["raw_risk_score"].value_counts(bins=12, sort=False).rename("candidate count")
     score_bins.index = score_bins.index.astype(str)
-    distribution = score_bins.rename_axis("score band").reset_index()
-    _altair_chart(st, distribution, category="score band", measure="candidate count", title="Candidate count", color="#5bc0de", height=250)
+    return score_bins.rename_axis("score band").reset_index()
+
+
+def review_queue_chart_frames(filtered: pd.DataFrame, budgeted: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    """Build deterministic, non-mutating frames for the four Review Queue charts."""
+    priority = filtered["review_priority"].value_counts().reindex(PRIORITY_ORDER, fill_value=0)
+    naics = filtered.groupby("naics_group").size().sort_values(ascending=False).head(12).rename("candidate count")
+    types = budgeted.groupby("insp_type").size().sort_values(ascending=False).rename("candidate count")
+    return {
+        "queue_priority": _short_chart_labels(priority.rename("candidate count")).rename_axis("review priority").reset_index(),
+        "naics_mix": _short_chart_labels(naics, "NAICS ").rename_axis("NAICS group").reset_index(),
+        "score_distribution": _score_distribution_frame(filtered),
+        "inspection_type": _short_chart_labels(types, "Type ").rename_axis("inspection type").reset_index(),
+    }
 
 
 def _queue_page(st, context, filtered: pd.DataFrame) -> None:
@@ -157,26 +211,21 @@ def _queue_page(st, context, filtered: pd.DataFrame) -> None:
         render_empty_state(st, "No candidates match these filters", "Reset filters or widen the advisory-score range. No ranking data was changed.")
         return
 
+    chart_frames = review_queue_chart_frames(filtered, budgeted)
     left, right = st.columns(2)
     with left:
         st.markdown("#### Queue priority")
-        priority = filtered["review_priority"].value_counts().reindex(PRIORITY_ORDER, fill_value=0)
-        priority_frame = _short_chart_labels(priority.rename("candidate count")).rename_axis("review priority").reset_index()
-        _altair_chart(st, priority_frame, category="review priority", measure="candidate count", title="Candidate count", color="#4FC3F7")
+        _altair_chart(st, chart_frames["queue_priority"], category="review priority", measure="candidate count", title="Candidate count", color=CHART_COLORS["queue_priority"])
     with right:
         st.markdown("#### Candidate mix by NAICS group")
-        naics = filtered.groupby("naics_group").size().sort_values(ascending=False).head(12).rename("candidate count")
-        naics_frame = _short_chart_labels(naics, "NAICS ").rename_axis("NAICS group").reset_index()
-        _altair_chart(st, naics_frame, category="NAICS group", measure="candidate count", title="Candidate count", color="#81c995")
+        _altair_chart(st, chart_frames["naics_mix"], category="NAICS group", measure="candidate count", title="Candidate count", color=CHART_COLORS["naics_mix"])
     lower_left, lower_right = st.columns(2)
     with lower_left:
         st.markdown("#### Advisory score distribution")
-        _score_distribution(st, filtered)
+        _altair_chart(st, chart_frames["score_distribution"], category="score band", measure="candidate count", title="Candidate count", color=CHART_COLORS["score_distribution"], height=250)
     with lower_right:
         st.markdown("#### Selected-budget inspection types")
-        types = budgeted.groupby("insp_type").size().sort_values(ascending=False).rename("candidate count")
-        type_frame = _short_chart_labels(types, "Type ").rename_axis("inspection type").reset_index()
-        _altair_chart(st, type_frame, category="inspection type", measure="candidate count", title="Candidate count", color="#e8b84d", height=250)
+        _altair_chart(st, chart_frames["inspection_type"], category="inspection type", measure="candidate count", title="Candidate count", color=CHART_COLORS["inspection_type"], height=250)
 
     st.markdown("#### Ranked candidates")
     st.caption("The table contains candidate context and advisory queue information only; no outcome labels are included.")
@@ -255,7 +304,7 @@ def _detail_page(st, context, selected_rank: int | None = None) -> None:
     st.caption("One-feature-at-a-time sensitivity describes fitted-model behavior. It is not a causal explanation.")
     explanation = local_perturbation_explanation(context.model, candidate, context.training_references)
     explanation_chart = explanation.loc[:, ["feature_label", "raw_score_difference"]].rename(columns={"feature_label": "feature", "raw_score_difference": "score difference"})
-    _altair_chart(st, explanation_chart, category="feature", measure="score difference", title="Score difference", color="#9ac8ff", height=330)
+    _altair_chart(st, explanation_chart, category="feature", measure="score difference", title="Score difference", color=CHART_COLORS["candidate_evidence"], height=330)
     st.dataframe(explanation.rename(columns={"feature_label": "Feature", "observed_value": "Observed value", "reference_value": "Training reference", "raw_score_difference": "Score difference", "direction": "Local influence"}).loc[:, ["Feature", "Observed value", "Training reference", "Score difference", "Local influence"]], hide_index=True, width="stretch")
     st.markdown("#### Suggested human-review focus")
     st.write("Review the supplied inspection context, historical indicators, and any applicable human workflow information. A reviewer may assess or escalate through their own process; this dashboard makes no automatic decision.")
@@ -295,7 +344,7 @@ def _evidence_page(st, context) -> None:
             {"budget": f"{budget}% model", "positives captured": values["selected_positives"]},
             {"budget": f"{budget}% baseline", "positives captured": baseline_captured},
         ])
-    _altair_chart(st, pd.DataFrame(comparison_rows), category="budget", measure="positives captured", title="Recorded positives captured", color="#81c995", height=280)
+    _altair_chart(st, pd.DataFrame(comparison_rows), category="budget", measure="positives captured", title="Recorded positives captured", color=CHART_COLORS["model_evidence"], height=280)
     st.markdown("#### Why this model?")
     st.write("Eight experiments were compared on chronological validation. Random Forest was selected for the recorded operational ranking metric and its improvement over the documented baseline. This does not establish performance outside the validation population.")
     st.markdown("#### Why not accuracy?")
@@ -306,7 +355,7 @@ def _evidence_page(st, context) -> None:
     st.markdown("#### Global fitted-model drivers")
     importance = global_feature_importance(context.model)
     importance_chart = importance.loc[:, ["feature_label", "importance"]].rename(columns={"feature_label": "feature"})
-    _altair_chart(st, importance_chart, category="feature", measure="importance", title="Relative importance", color="#4FC3F7", height=330)
+    _altair_chart(st, importance_chart, category="feature", measure="importance", title="Relative importance", color=CHART_COLORS["importance"], height=330)
     st.caption("Importance reflects use by the fitted Random Forest, not causal effect.")
     with st.expander("Technical details: hyperparameters and lineage"):
         st.json({"hyperparameters": selected["hyperparameters"], "chronology": "2020–2021 training → 2022 retrospective validation", "leakage_controls": context.feature_report.get("leakage_checks", {}), "selected_experiment": context.comparison["selected_candidate"]})
@@ -336,11 +385,11 @@ def _monitoring_page(st, context) -> None:
     left, right = st.columns(2)
     with left:
         st.markdown("#### Raw statistical drift")
-        _altair_chart(st, drift.sort_values("PSI", ascending=False), category="feature", measure="PSI", title="PSI", color="#e8b84d", height=310)
+        _altair_chart(st, drift.sort_values("PSI", ascending=False), category="feature", measure="PSI", title="PSI", color=CHART_COLORS["monitoring_drift"], height=310)
     with right:
         st.markdown("#### Operational interpretation")
         severity_counts = drift["operational severity"].value_counts().rename_axis("operational severity").reset_index(name="feature count")
-        _altair_chart(st, severity_counts, category="operational severity", measure="feature count", title="Feature count", color="#9ac8ff", height=310)
+        _altair_chart(st, severity_counts, category="operational severity", measure="feature count", title="Feature count", color=CHART_COLORS["monitoring_severity"], height=310)
     st.dataframe(drift.loc[:, ["feature", "semantics", "PSI", "raw severity", "operational severity"]], hide_index=True, width="stretch")
     st.markdown("#### Feature detail")
     feature = st.selectbox("Monitoring feature", drift["feature"].tolist())
@@ -457,7 +506,7 @@ def main() -> None:
         _monitoring_page(st, context)
     else:
         _limitations_page(st, context)
-    render_footer(st, "Public demo · v1.0.1")
+    render_footer(st, f"Public demo · {public_demo_version()}")
 
 
 if __name__ == "__main__":

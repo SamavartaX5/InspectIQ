@@ -17,6 +17,10 @@ def apply_theme(st) -> None:
     [data-testid="stMetric"] { background: #151f31; border: 1px solid #273852; border-radius: 12px; padding: 0.85rem 1rem; }
     [data-testid="stMetricLabel"] { color: #aebed2; font-size: 0.84rem; }
     [data-testid="stMetricValue"] { color: #f4f8ff; font-size: 1.45rem; }
+    .inspectiq-metric-card { min-width: 0; min-height: 5.6rem; box-sizing: border-box; background: #151f31; border: 1px solid #273852; border-radius: 12px; padding: 0.85rem 1rem; }
+    .inspectiq-metric-card-label { color: #aebed2; font-size: 0.84rem; line-height: 1.2; }
+    .inspectiq-metric-card-value { color: #f4f8ff; font-size: 1.45rem; font-weight: 600; line-height: 1.2; margin-top: 0.28rem; }
+    .inspectiq-metric-card--long .inspectiq-metric-card-value { font-size: clamp(1rem, 1.9vw, 1.22rem); line-height: 1.3; white-space: normal; overflow-wrap: anywhere; word-break: normal; overflow: visible; text-overflow: clip; }
     [data-testid="stDataFrame"] { border: 1px solid #273852; border-radius: 10px; overflow: hidden; }
     [data-testid="stExpander"] { border: 1px solid #273852; border-radius: 10px; background: #111b2b; }
     [data-testid="stDownloadButton"] > button, [data-testid="stButton"] > button {
@@ -38,7 +42,7 @@ def apply_theme(st) -> None:
     .inspectiq-callout.warning { border-left-color: #e8b84d; background: #312714; }
     .inspectiq-footer { color: #91a3ba; border-top: 1px solid #273852; margin-top: 2rem; padding-top: 1rem; font-size: 0.84rem; }
     .inspectiq-sidebar-card { border: 1px solid #31445f; border-radius: 10px; padding: 0.75rem; background: #152238; color: #dce8f5; font-size: 0.87rem; }
-    @media (max-width: 900px) { .block-container { padding-left: 1rem; padding-right: 1rem; } [data-testid="stMetricValue"] { font-size: 1.22rem; } }
+    @media (max-width: 900px) { .block-container { padding-left: 1rem; padding-right: 1rem; } [data-testid="stMetricValue"] { font-size: 1.22rem; } .inspectiq-metric-card { padding: 0.75rem; } .inspectiq-metric-card--long .inspectiq-metric-card-value { font-size: 1rem; } }
 </style>
         """,
         unsafe_allow_html=True,

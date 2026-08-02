@@ -22,7 +22,7 @@
   "rank_order_check": true,
   "ranked_row_count": 300,
   "required_column_checks": true,
-  "runtime_seconds": 1.3525,
+  "runtime_seconds": 1.2816,
   "score_range_checks": true,
   "source_snapshot_id": "edbd4bd813ed8e1dbaba9e1c",
   "status": "PASS",
