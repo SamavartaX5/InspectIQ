@@ -44,11 +44,26 @@ def render_page_header(st, title: str, description: str, *, eyebrow: str = "Insp
     st.markdown(f'<div class="inspectiq-subtitle">{escape(description)}</div>', unsafe_allow_html=True)
 
 
+def is_long_metric_value(value: object) -> bool:
+    """Identify metric values that need a wrapping-compatible card treatment."""
+    return len(str(value)) > 20
+
+
 def render_kpi_row(st, items: Iterable[Mapping[str, object]]) -> None:
     values = list(items)
     columns = st.columns(len(values))
     for column, item in zip(columns, values):
-        column.metric(str(item["label"]), item["value"], help=item.get("help"))
+        label, value = str(item["label"]), item["value"]
+        if bool(item.get("long_value")) or is_long_metric_value(value):
+            column.markdown(
+                '<div class="inspectiq-metric-card inspectiq-metric-card--long">'
+                f'<div class="inspectiq-metric-card-label">{escape(label)}</div>'
+                f'<div class="inspectiq-metric-card-value">{escape(str(value))}</div>'
+                '</div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            column.metric(label, value, help=item.get("help"))
         if item.get("caption"):
             column.caption(str(item["caption"]))
 

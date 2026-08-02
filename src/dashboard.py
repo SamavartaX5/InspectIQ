@@ -58,6 +58,18 @@ def read_config(path: Path) -> dict[str, Any]:
     return config
 
 
+def public_demo_version(path: Path = Path("config/deployment_config.yaml")) -> str:
+    """Read the public-demo version from the deployment manifest source."""
+    try:
+        config = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as exc:
+        raise DashboardError(f"Invalid deployment configuration: {path}") from exc
+    version = config.get("source_release_version") if isinstance(config, dict) else None
+    if not isinstance(version, str) or not version:
+        raise DashboardError("Deployment configuration lacks source_release_version.")
+    return version
+
+
 @dataclass
 class DashboardContext:
     config: dict[str, Any]

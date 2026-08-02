@@ -10,8 +10,9 @@ import numpy as np
 import pandas as pd
 
 from src.batch_prediction import MODEL_COLUMNS, OUTPUT_COLUMNS
-from src.dashboard import DashboardError, filter_candidates, load_dashboard_context, queue_csv, validate
+from src.dashboard import DashboardError, filter_candidates, load_dashboard_context, public_demo_version, queue_csv, validate
 from src.explanations import global_feature_importance, local_perturbation_explanation, training_references
+from src.ui_components import is_long_metric_value, render_footer, render_kpi_row
 
 
 class FrozenPreprocess:
@@ -182,6 +183,38 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(app.adjacent_rank([1, 2, 3], 2, 1), 3)
         self.assertEqual(app.active_filter_count({"naics_group": ["23"]}, frame), 1)
 
+    def test_altair_bar_marks_are_explicitly_visible_for_every_dashboard_chart(self):
+        import app.streamlit_app as app
+        with tempfile.TemporaryDirectory() as temp:
+            config, _ranked, candidate = self.fixture(Path(temp))
+            context = load_dashboard_context(config)
+            queue_frames = app.review_queue_chart_frames(context.ranked, app.budget_queue(context.ranked, "All candidates"))
+        self.assertEqual(set(queue_frames), {"queue_priority", "naics_mix", "score_distribution", "inspection_type"})
+        self.assertTrue(all(not frame.empty for frame in queue_frames.values()))
+        chart_inputs = [
+            (queue_frames["queue_priority"], "review priority", "candidate count", app.CHART_COLORS["queue_priority"]),
+            (queue_frames["naics_mix"], "NAICS group", "candidate count", app.CHART_COLORS["naics_mix"]),
+            (queue_frames["score_distribution"], "score band", "candidate count", app.CHART_COLORS["score_distribution"]),
+            (queue_frames["inspection_type"], "inspection type", "candidate count", app.CHART_COLORS["inspection_type"]),
+        ]
+        generic = pd.DataFrame({"category": ["one", "two"], "measure": [1, 2]})
+        chart_inputs.extend((generic, "category", "measure", color) for color in app.CHART_COLORS.values())
+        for frame, category, measure, color in chart_inputs:
+            with self.subTest(color=color, category=category):
+                self.assertTrue(app._valid_hex_color(color))
+                spec = app._build_bar_chart(frame, category=category, measure=measure, title="Count", color=color, height=220).to_dict()
+                mark = spec["mark"]
+                self.assertEqual(mark["type"], "bar")
+                self.assertEqual(mark["color"], color)
+                self.assertEqual(mark["fill"], color)
+                self.assertGreater(mark["opacity"], 0)
+                self.assertNotEqual(mark["color"].lower(), app.CHART_BACKGROUND.lower())
+                self.assertNotEqual(mark["fill"].lower(), app.CHART_BACKGROUND.lower())
+                self.assertNotIn("var(", mark["color"].lower())
+                self.assertNotIn("var(", mark["fill"].lower())
+                self.assertTrue(app._valid_hex_color(mark["stroke"]))
+                self.assertNotEqual(mark["stroke"].lower(), app.CHART_BACKGROUND.lower())
+
     def test_public_ui_contract_is_safe_and_theme_is_local(self):
         import app.streamlit_app as app
         import tomllib
@@ -196,6 +229,45 @@ class DashboardTests(unittest.TestCase):
         self.assertNotIn("<script", css)
         self.assertNotIn("fonts.googleapis", css)
         self.assertEqual(theme["theme"]["base"], "dark")
+
+    def test_long_metric_values_wrap_without_truncation_and_footer_uses_deployment_version(self):
+        import app.streamlit_app as app
+        date_range = "2023-01-03 to 2023-01-23"
+
+        class Column:
+            def __init__(self): self.markdown_calls = []; self.metric_calls = []
+            def markdown(self, value, **_kwargs): self.markdown_calls.append(value)
+            def metric(self, *args, **kwargs): self.metric_calls.append((args, kwargs))
+            def caption(self, *_args, **_kwargs): pass
+
+        class FakeSt:
+            def __init__(self): self.columns_created = []; self.markdown_calls = []
+            def columns(self, count):
+                self.columns_created = [Column() for _ in range(count)]
+                return self.columns_created
+            def markdown(self, value, **_kwargs): self.markdown_calls.append(value)
+
+        st = FakeSt()
+        render_kpi_row(st, [{"label": "Date range", "value": date_range}])
+        long_card = st.columns_created[0].markdown_calls[0]
+        render_footer(st, f"Public demo · {public_demo_version()}")
+        theme_source = Path("src/ui_theme.py").read_text(encoding="utf8")
+        dashboard_source = Path("app/streamlit_app.py").read_text(encoding="utf8")
+        dashboard_config = Path("config/dashboard_config.yaml").read_text(encoding="utf8")
+        deployment_config = Path("config/deployment_config.yaml").read_text(encoding="utf8")
+        self.assertTrue(is_long_metric_value(date_range))
+        self.assertIn(date_range, long_card)
+        self.assertNotIn("...", long_card)
+        self.assertIn("inspectiq-metric-card--long", long_card)
+        self.assertIn("overflow-wrap: anywhere", theme_source)
+        self.assertIn("white-space: normal", theme_source)
+        self.assertIn("text-overflow: clip", theme_source)
+        self.assertEqual(public_demo_version(), "v1.1.1")
+        self.assertTrue(any("Public demo · v1.1.1" in value for value in st.markdown_calls))
+        self.assertNotIn("v1.0.1", dashboard_source)
+        self.assertNotIn("v1.0.1", dashboard_config)
+        self.assertNotIn("v1.0.1", deployment_config)
+        self.assertEqual(app.NAVIGATION, ["Review Queue", "Candidate Detail", "Model Evidence", "Monitoring & Governance", "Data & Limitations"])
 
 
 def yaml_path(config, key):
